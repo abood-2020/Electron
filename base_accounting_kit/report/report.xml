@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+       <record id="paperformat_account_bank" model="report.paperformat">
+            <field name="name">Account Bank Report Paper Forma.t</field>
+            <field name="format">custom</field>
+            <field name="page_height">297</field>
+            <field name="page_width">210</field>
+            <field name="orientation">Landscape</field>
+            <field name="margin_top">40</field>
+            <field name="margin_bottom">20</field>
+            <field name="margin_left">7</field>
+            <field name="margin_right">7</field>
+            <field name="header_line" eval="True"/>
+            <field name="header_spacing">35</field>
+            <field name="dpi">90</field>
+        </record>
+    <!--    # General ledger report    -->
+    <record id="action_report_general_ledger" model="ir.actions.report">
+            <field name="name">General Ledger</field>
+            <field name="model">account.report.general.ledger</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">base_accounting_kit.report_general_ledger</field>
+            <field name="report_file">base_accounting_kit.report_general_ledger</field>
+        </record>
+    <!--    # Partner ledger report    -->
+     <record id="action_report_partnerledger" model="ir.actions.report">
+            <field name="name">Partner Ledger</field>
+            <field name="model">account.report.partner.ledger</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="paperformat_id" ref="paperformat_account_bank"/>
+            <field name="report_name">base_accounting_kit.report_partnerledger</field>
+            <field name="report_file">base_accounting_kit.report_partnerledger</field>
+        </record>
+ 
+    <!--    # Accounting Bank Book Report    -->
+    <record id="action_report_bank_book" model="ir.actions.report">
+            <field name="name">Bank Book Report</field>
+            <field name="model">account.bank.book.report</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="paperformat_id" ref="paperformat_account_bank"/>
+            <field name="report_name">base_accounting_kit.report_bank_book</field>
+            <field name="report_file">base_accounting_kit.report_bank_book</field>
+            <field name="attachment_use">False</field>
+        </record>
+
+</odoo>

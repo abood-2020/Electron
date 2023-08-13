@@ -1,0 +1,388 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <template id="elect_petty_close_doc">
+            <div class="main py-5">
+                <div class="container">
+                    <div class="header">
+                        <div class="top mb-4">
+                            <div class="row">
+                                <div class="col-8">
+                                    <div class="row">
+                                        <div class="comp-details text-left mb-lg-0 mb-3">
+                                            <!-- <div class="logo">
+                                                <img t-if="o.company_id.logo" t-att-src="image_data_uri(o.company_id.logo_web)" style="height:70px;"/>
+                                            </div> -->
+                                            <div>
+                                                <img src="/electron_custom/static/src/img/logo.png" style="width:300px; height:100px;" />
+                                            </div>
+                                        </div>
+                                        <div class="comp-details text-left mb-lg-0 mb-3" style="margin-left:20px;">
+                                            <ul class="list-unstyled">
+                                                <li t-if="o.company_id.partner_id">
+                                                    <span class="company_address" t-field="o.company_id.partner_id" t-options='{"widget": "contact", "fields": ["address"], "no_marker": true}' />
+
+                                                </li>
+                                                <li t-if="o.company_id.phone">
+                                                    Tel  :
+                                                    <span t-field="o.company_id.phone" />
+                                                </li>
+                                                <li t-if="o.company_id.vat">
+                                                    <t t-esc="o.company_id.country_id.vat_label or 'Fax :'" />
+                                                    <span t-field="o.company_id.vat" />
+                                                </li>
+                                                <!-- <li>
+                                                    Email :  Accountant@electron-mep.com
+                                                </li> -->
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-4">
+                                    <div style="height:90px;">
+                                        <table class="table table-bordered comp-d-table tablepadd" style="border: 1px solid black;">
+                                            <tbody>
+                                                <tr>
+                                                    <h6>
+
+                                                        <div class="text-center">
+                                                            <h6 style="background-color: #f5f5f5;">
+                                                            Petty Closing
+                                                            </h6>
+                                                        </div>
+
+                                                        <!-- <t t-if="o.state != 'posted'">
+                                                            <div class="text-center">
+                                                                <h6 style="background-color: #f5f5f5;">
+                                                            Draft Payment Certificate
+                                                                </h6>
+                                                            </div>
+                                                        </t> -->
+                                                        <!-- <t t-if="o.state == 'posted'">
+                                                            <div class="text-center">
+                                                                <h6 style="background-color: #f5f5f5;">
+                                                          Payment Certificate
+                                                                </h6>
+                                                            </div>
+                                                        </t> -->
+                                                    </h6>
+                                                </tr>
+                                                <tr>
+                                                    <td style="padding:5px; background-color: #f5f5f5; ">REF NO :</td>
+                                                    <td style="padding:5px;">
+                                                        <span t-field="o.name" />
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td style="padding:5px;">Date :</td>
+                                                    <td style="padding:5px;">
+                                                        <span t-field="o.date" t-options='{"widget": "date"}' />
+                                                        <!-- <span t-esc="context_timestamp(datetime.datetime.now()).strftime('%d/%m/%Y')" /> -->
+                                                    </td>
+                                                </tr>
+                                                <!-- <tr>
+                                                    <td style="padding:5px; font-size: 12px; ">Number of Pages:</td>
+                                                    <td style="padding:5px;">
+                                                        <span class="topage" />
+                                                    </td>
+                                                </tr> -->
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+
+                    <t t-call="web.html_container">
+                        <t t-call="web.internal_layout">
+
+                            <link rel="stylesheet" type="text/scss" href="/electron_custom/static/src/scss/bootstrap.min.scss" />
+                            <link rel="stylesheet" type="text/scss" href="/electron_custom/static/src/scss/reportstyle.css" />
+
+
+                            <t t-set="o" t-value="o" />
+                            <div class="second-section mt-5 text-md-left text-left">
+                                <br />
+                                <table class="table table-bordered comp-d-table tablepadd" style="border: 1px solid black;">
+                                    <tbody>
+                                        <tr>
+                                            <td class="text-left" style="width:60%; border: 2px solid black;">
+                                                <!-- <h6 style="text-decoration: underline;">Please Pay to Supplier/Contarctor:</h6> -->
+                                                <ul class="list-unstyled">
+                                                    <li>
+                                                        <strong>Employee:</strong>
+                                                        &#160;
+                                                        <span t-field="o.employee_id" />
+                                                    </li>
+                                                    <li>
+                                                        <strong>Department:</strong>
+                                                        &#160;
+                                                        <span t-field="o.department_id" />
+                                                    </li>
+                                                    <!-- <li>
+                                                        <strong>INV No:</strong>
+                                                        &#160;
+                                                        <span t-field="o.name" />
+                                                    </li> -->
+                                                    <li>
+                                                        <strong>Reason:</strong>
+                                                        &#160;
+                                                        <span t-field="o.reason" />
+                                                    </li>
+                                                    <li>
+                                                        <strong>Amount:</strong>
+                                                        &#160;
+                                                        <span t-field="o.petty_closing_amount" />
+                                                        &#160;
+                                                        QAR
+                                                    </li>
+                                                </ul>
+                                            </td>
+                                            <!-- <td class="text-left" style="width:40%; border: 2px solid black;">
+                                                <ul class="list-unstyled">
+                                                    <li>
+                                                        <strong>Date:</strong>
+                                                        &#160;
+                                                        <span t-field="o.invoice_date" t-options='{"widget": "date"}' />
+                                                    </li>
+                                                    <li>
+                                                        <strong>Project Name:</strong>
+                                                        &#160;
+                                                        <span t-field="o.inv_origin_id.project_id" />
+                                                    </li>
+                                                    <li>
+                                                        <strong>Project Code:</strong>
+                                                        &#160;
+                                                        <span t-field="o.inv_origin_id.project_id.project_code" />
+                                                    </li>
+                                                    <li>
+                                                        <strong>DN Number:</strong>
+                                                        &#160;
+                                                        <span t-field="o.dn_number" />
+                                                    </li>
+                                                    <li>
+                                                        <strong>Delivery date:</strong>
+                                                        &#160;
+                                                        <span t-field="o.inv_origin_id.effective_date" t-options='{"widget": "date"}' />
+                                                    </li>
+                                                </ul>
+                                            </td> -->
+                                        </tr>
+                                    </tbody>
+                                </table>
+
+                            </div>
+
+
+                            <div class="page">
+                                <table class="table table-sm o_main_table" style="border: 2px solid black;">
+                                    <thead>
+                                        <tr class="text-center" style="background-color: #f5f5f5; border: 2px solid black;">
+                                            <th style="width:2%;">
+                                    No.
+                                            </th>
+                                            <th style="width:38%;">
+                                    Description
+                                            </th>
+                                            <th style="width:25%;">
+                                    Supplier Name
+                                            </th>
+                                            <th style="width:5%;">
+                                    Invoice Number
+                                            </th>
+                                            <th style="width:5%;">
+                                    Account
+                                            </th>
+                                            <th style="width:5%;">
+                                    Total
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <t t-foreach="o.petty_close_line_id" t-as="line">
+                                            <tr style="font-size: 12px; width:100%;">
+                                                <td class="text-center" style="width:5%;">
+                                                    <span t-field="line.sequence_ref" />
+                                                </td>
+                                                <td>
+                                                    <span t-field="line.desc" style="font-size: 12px; width:45%;" />
+                                                </td>
+                                                <td class="text-center">
+                                                    <span t-field="line.supplier" style="font-size: 12px; width:20%;" />
+                                                </td>
+                                                <td class="text-center" style="width:30%;">
+                                                    <span t-field="line.invoice_number" />
+                                                </td>
+                                                <td class="text-center" style="width:30%;">
+                                                    <span t-field="line.account_to_id" />
+                                                </td>
+                                                <td class="text-center" style="width:30%;">
+                                                    <span t-field="line.total" />
+                                                </td>
+                                            </tr>
+                                        </t>
+                                    </tbody>
+                                </table>
+                                <!-- <p style="page-break-after:always;"></p> -->
+                                <br />
+                                <table class="table table-sm o_main_table">
+                                    <!-- <thead>
+                                        <tr class="text-left" style="border: 2px solid black;">
+                                            <th colspan="6" class="text-left" style="width:100%;border: 2px solid black;">
+                                                <strong>
+                                                    <h5 style="text-decoration: underline;">Notes: </h5>
+                                                </strong>
+                                                <p style="font-size: 12px;"> 
+                                                Payment will be released with in 15 days from the date of approvals and eligibility </p>
+                                                <p style="font-size: 12px;" t-field="o.inv_origin_id.notes" />
+                                            </th>
+                                        </tr>
+                                        <tr>
+                                            <th colspan="6" class="text-left" style="width:100%;border: 2px solid black;">
+                                                <strong>
+                                                    <h5 style="text-decoration: underline;">Attachments: </h5>
+                                                </strong>
+                                                <p style="font-size: 12px;" t-field="o.inv_origin_id.attachments" />
+                                                <p style="font-size: 12px;">
+                                                    1- Originial Copy of the Invoice
+                                                    <br />
+                                                    2- Original Copy of the Delivery Note
+                                                    <br />
+                                                    3- Original LPO or Contract copy
+                                                    <br />
+                                                    4- Consultant approval
+                                                    <br />
+                                                </p>
+                                            </th>
+                                        </tr>
+                                    </thead> -->
+                                    <!-- <tbody>
+                                        <tr>
+                                            <td colspan="3" class="text-center" style="border: 2px solid black; width:50%;">
+                                                <strong>
+                                                    <h5> Prepared by </h5>
+                                                </strong>
+                                            </td>
+                                            <td colspan="3" class="text-center" style="border: 2px solid black; width:50%;">
+                                                <strong>
+                                                    <h5> Checked by </h5>
+                                                </strong>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="3" style="border: 2px solid black; width:50%; height:90px;">
+                                                <ul class="list-unstyled">
+                                                    <li class="text-left">
+                                                                    Name :
+                                                    </li>
+                                                    <li class="text-left">
+                                                                    Signature :
+                                                    </li>
+                                                    <li class="text-left">
+                                                                    Date :
+                                                    </li>
+                                                </ul>
+                                            </td>
+                                            <td colspan="3" style="border: 2px solid black; width:50%; height:90px;">
+                                                <ul class="list-unstyled">
+                                                    <li class="text-left">
+                                                                    Name :
+                                                    </li>
+                                                    <li class="text-left">
+                                                                    Signature :
+                                                    </li>
+                                                    <li class="text-left">
+                                                                    Date :
+                                                    </li>
+                                                </ul>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="3" class="text-center" style="border: 2px solid black; width:50%;">
+                                                <strong>
+                                                    <h5> Attested by </h5>
+                                                </strong>
+                                            </td>
+                                            <td colspan="3" class="text-center" style="border: 2px solid black; width:50%;">
+                                                <strong>
+                                                    <h5> Approved by </h5>
+                                                </strong>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="3" style="border: 2px solid black; width:50%; height:90px;">
+                                                <ul class="list-unstyled">
+                                                    <li class="text-left">
+                                                                    Name :
+                                                    </li>
+                                                    <li class="text-left">
+                                                                    Signature :
+                                                    </li>
+                                                    <li class="text-left">
+                                                                    Date :
+                                                    </li>
+                                                </ul>
+                                            </td>
+                                            <td colspan="3" style="border: 2px solid black; width:50%; height:90px;">
+
+                                                <ul class="list-unstyled">
+                                                    <li class="text-left">
+                                                                    Name :
+                                                    </li>
+                                                    <li class="text-left">
+                                                                    Signature :
+                                                    </li>
+                                                    <li class="text-left">
+                                                                    Date :
+                                                    </li>
+                                                </ul>
+
+                                            </td>
+
+                                        </tr>
+                                    </tbody> -->
+                                </table>
+                                <div class="footer">
+                                    <!-- <strong class="text-left">
+                                        <h6 style="opacity: 0.4;"> QMS REF NO.: EEM-PRJ-F005|00 </h6>
+                                    </strong> -->
+                                    <strong class="text-right">
+                                        <h6 style="opacity: 0.4;">
+                                            <span t-esc="context_timestamp(datetime.datetime.now()).strftime('%Y-%m-%d %H:%M')"/>
+                                        </h6>
+                                    </strong>
+                                    <span class="page" />
+                                    of
+                                    <span class="topage" />
+                                </div>
+                            </div>
+                        </t>
+                    </t>
+                </div>
+            </div>
+        </template>
+
+        <template id="elect_petty_close">
+            <t t-call="web.html_container">
+                <t t-foreach="docs" t-as="o">
+                    <t t-call="electron_custom.elect_petty_close_doc" />
+                </t>
+            </t>
+        </template>
+        <record id="elect_petty_close_report" model="ir.actions.report">
+            <field name="name">Petty Close</field>
+            <field name="model">hr.pettycash.closing.model</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">electron_custom.elect_petty_close</field>
+            <field name="report_file">electron_custom.elect_petty_close</field>
+            <field name="print_report_name">('Petty Close - %s' % (object.name))</field>
+            <field name="binding_model_id" ref="electron_hr.model_hr_pettycash_closing_model" />
+            <field name="binding_type">report</field>
+        </record>
+
+
+    </data>
+</odoo>

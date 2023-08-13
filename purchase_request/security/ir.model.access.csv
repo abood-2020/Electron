@@ -1,0 +1,19 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_purchase_requester,purchase.requester,model_purchase_requester,purchase_request.purchase_request_group,1,1,1,0
+access_purchase_requester_manager,purchase.requester,model_purchase_requester,purchase.group_purchase_manager,1,1,1,1
+access_purchase_order,purchase.requester,model_purchase_order,purchase_request_group,1,1,1,0
+access_purchase_order_estimation,purchase.requester,model_purchase_requester,project.group_project_user,1,0,0,0
+access_purchase_request_order_line,purchase.requester.order.line,model_purchase_requester_order_line,purchase_request.purchase_request_group,1,1,1,1
+access_purchase_request_order_line_estimation,purchase.requester.order.line,model_purchase_requester_order_line,project.group_project_user,1,1,1,1
+access_purchase_order_requisition,purchase.requester,purchase_requisition.model_purchase_requisition,purchase_request.purchase_request_group,1,1,1,0
+access_purchase_requisition_line_purchase_user,purchase.requisition.line,purchase_requisition.model_purchase_requisition_line,purchase_request.purchase_request_group,1,1,1,1
+access_purchase_requisition_type,purchase.requester.requisition.type,purchase_requisition.model_purchase_requisition_type,purchase_request.purchase_request_group,1,1,1,1
+acess_purchase_order_line,purchase.requester.purchase.order line,purchase.model_purchase_order_line,purchase_request.purchase_request_group,1,0,0,0
+access_project_set_budget_user,project.set.budget,model_project_set_budget,purchase_request.purchase_request_group,1,0,0,0
+access_project_set_budget_user_estimation,project.set.budget,model_project_set_budget,project.group_project_user,1,1,1,1
+access_purchase_order,purchase.order,purchase.model_purchase_order,purchase_request.purchase_request_group,1,0,0,0
+access_stock_move,stock.move,stock.model_stock_move,purchase_request.purchase_request_group,1,1,0,0
+access_account_move_line,account.move.line,account.model_account_move_line,purchase_request.purchase_request_group,1,0,0,0
+access_stock_picking,stock.picking,stock.model_stock_picking,purchase_request.purchase_request_group,1,1,0,0
+access_stock_scrap,stock.scrap,stock.model_stock_scrap,purchase_request.purchase_request_group,1,1,0,0
+access_project_set_budget,project.set.budget,model_project_set_budget,project.group_project_manager,1,1,1,1

@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_elec_payroll_structure_type_form" model="ir.ui.view">
+        <field name="name">electron.payroll.structure.type.form</field>
+        <field name="model">hr.payroll.structure.type</field>
+        <field name="inherit_id" ref="hr_payroll.hr_payroll_structure_type_view_form" />
+        <field name="arch" type="xml">
+            <xpath expr="//sheet" position="inside">
+                <group>
+                    <group>
+                        <separator string="Basic" />
+                        <field name="basic_start" />
+                        <field name="basic_end" />
+                    </group>
+                    <group>
+                        <separator string="Housing" />
+                        <field name="housing_provided" />
+                        <field name="housing_allowance" attrs="{'invisible': [('housing_provided','=', False)]}" />
+                    </group>
+                    <group>
+                        <separator string="Transportation" />
+                        <field name="transportation_provided" />
+                        <field name="transportation_allowance" attrs="{'invisible': [('transportation_provided','=', False)]}" />
+                    </group>
+                    <group>
+                        <separator string="Mobile" />
+                        <field name="mobile_provided" />
+                        <field name="mobile_allowance" attrs="{'invisible': [('mobile_provided','=', False )]}" />
+                    </group>
+                    <group>
+                        <separator string="Food" />
+                        <field name="food_provided" />
+                        <field name="food_allowance" attrs="{'invisible': [('food_provided','=', False )]}" />
+                    </group>
+                    <group>
+                        <separator string="Ticket" />
+                        <field name="ticket_provided" />
+                        <field name="ticket_allowance" attrs="{'invisible': [('ticket_provided','=', False )]}" />
+                    </group>
+                    <group>
+                        <separator string="Reseidence Permit" />
+                        <field name="reseidence_permit_provided" />
+                        <field name="reseidence_permit_allowance" attrs="{'invisible': [('reseidence_permit_provided','=', False )]}" />
+                    </group>
+                    <group>
+                        <separator string="Health Insurance" />
+                        <field name="health_insurance_provided" />
+                        <field name="health_insurance_allowance" attrs="{'invisible': [('health_insurance_provided','=', False )]}" />
+                    </group>
+                    <group>
+                        <separator string="Other Allawances" />
+                        <field name="other_provided" />
+                        <field name="other_allowance_start" attrs="{'invisible': [('other_provided','=', False )]}" />
+                        <field name="other_allowance_end" attrs="{'invisible': [('other_provided','=', False  )]}" />
+                    </group>
+                    <group>
+                        <!-- <separator string="Total" /> -->
+                        <field name="total_start"  invisible="1" />
+                        <field name="total_end" invisible="1" />
+                    </group>
+                </group>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="view_elec_payroll_contract_form" model="ir.ui.view">
+        <field name="name">electron.payroll.contract.form</field>
+        <field name="model">hr.contract</field>
+        <field name="inherit_id" ref="hr_contract.hr_contract_view_form" />
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='structure_type_id']" position="after">
+                <field name="is_overtime"/>
+            </xpath>
+            
+            <xpath expr="//div[@name='wage']" position="after">
+                <!-- <label for="basic_start" invisible="1"  />
+                <div class="o_row" name="basic_start">
+                    <field name="basic_start" nolabel="1" />
+                    <span>/ month</span>
+                </div>
+                <label for="basic_end" />
+                <div class="o_row" name="basic_end">
+                    <field name="basic_end" nolabel="1" />
+                    <span>/ month</span>
+                </div> -->
+                <field name="basic_start" nolabel="1" invisible="1" />
+                <field name="basic_end" nolabel="1" invisible="1" />
+            </xpath>
+            <xpath expr="//group[@name='salary_and_advantages']" position="after">
+                <group string="Housing">
+                    <field name="struct_type_name" invisible="1"  />
+                    <field name="housing_provided" attrs="{'readonly':[('struct_type_name','!=', 'General')]}" force_save="1"/>
+                    <field name="housing_allowance" attrs="{'invisible': [('housing_provided','=', False)],'readonly':[('struct_type_name','!=', 'General')]}" force_save="1"/>
+                </group>
+                <group string="Transportation">
+                    <field name="transportation_provided" attrs="{'readonly':[('struct_type_name','!=', 'General' )]}" force_save="1" />
+                    <field name="transportation_allowance" attrs="{'invisible': [('transportation_provided','=', False)],'readonly':[('struct_type_name','!=', 'General' )]}" force_save="1" />
+                </group>
+                <group string="Mobile">
+                    <field name="mobile_provided" attrs="{'readonly':[('struct_type_name','!=', 'General' )]}" force_save="1"  />
+                    <field name="mobile_allowance" attrs="{'invisible': [('mobile_provided','=', False )],'readonly':[('struct_type_name','!=', 'General' )]}" force_save="1"/>
+                </group>
+                <group string="Food">
+                    <field name="food_provided" attrs="{'readonly':[('struct_type_name','!=', 'General' )]}" force_save="1"  />
+                    <field name="food_allowance" attrs="{'invisible': [('food_provided','=', False )],'readonly':[('struct_type_name','!=', 'General' )]}" force_save="1" />
+                </group>
+                <group string="Ticket">
+                    <field name="ticket_provided" attrs="{'readonly':[('struct_type_name','!=', 'General' )]}" force_save="1"  />
+                    <field name="ticket_allowance" attrs="{'invisible': [('ticket_provided','=', False )],'readonly':[('struct_type_name','!=', 'General' )]}" force_save="1"  />
+                </group>
+                <group string="Reseidence Permit">
+                    <field name="reseidence_permit_provided" attrs="{'readonly':[('struct_type_name','!=', 'General' )]}" force_save="1"  />
+                    <field name="reseidence_permit_allowance" attrs="{'invisible': [('reseidence_permit_provided','=', False )],'readonly':[('struct_type_name','!=', 'General' )]}" force_save="1"  />
+                </group>
+                <group string="Health Insurance">
+                    <field name="health_insurance_provided" attrs="{'readonly':[('struct_type_name','!=', 'General' )]}" force_save="1"  />
+                    <field name="health_insurance_allowance" attrs="{'invisible': [('health_insurance_provided','=', False )],'readonly':[('struct_type_name','!=', 'General' )]}" force_save="1"  />
+                </group>
+                <group string="Other Allawances">
+                    <field name="other_provided" attrs="{'readonly':[('struct_type_name','!=', 'General' )]}" force_save="1" />
+                    <field name="other_allowance" attrs="{'invisible': [('other_provided','=', False )],'readonly':[('struct_type_name','!=', 'General' )]}" force_save="1" />
+                    <field name="other_allowance_start" invisible="1"/>
+                    <field name="other_allowance_end" invisible="1" />
+                </group>
+                <group string="Total">
+                    <field name="total_start" />
+                    <field name="total_end" invisible="1" />
+                </group>
+            </xpath>
+        </field>
+    </record>
+</odoo>

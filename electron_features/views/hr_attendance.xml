@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <record id="view_electron_hr_attnednace_tree" model="ir.ui.view">
+        <field name="name">electron.hr.attnedance.tree</field>
+        <field name="model">hr.attendance</field>
+        <field name="inherit_id" ref="hr_attendance.view_attendance_tree" />
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='worked_hours']" position="after">
+                <field name="normal_overtime" />
+                <field name="is_absent" string="Is absent" />
+                <field name="note" />
+            </xpath>
+        </field>
+    </record>
+</odoo>

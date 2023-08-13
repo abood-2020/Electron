@@ -1,0 +1,4 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+partial_payment_id,partial_payment_wizard,model_partial_payment_payslip,base.group_user,1,1,1,1
+payment_commissions_model,payment_commissions_model,model_commission_payment,base.group_user,1,1,1,1
+

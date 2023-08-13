@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_elec_res_users_form" model="ir.ui.view">
+        <field name="name">Electron Users Form View</field>
+        <field name="model">res.users</field>
+        <field name="inherit_id" ref="base.view_users_form" />
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='tz']" position="after">
+                <field name="elec_user_type" widget="radio" />
+            </xpath>
+        </field>
+    </record>
+</odoo>

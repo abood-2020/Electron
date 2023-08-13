@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="account_bank_ledger_report_view" model="ir.ui.view">
+        <field name="name">account.bank.book.form.view</field>
+        <field name="model">account.report.partner.ledger</field>
+        <field name="arch" type="xml">
+            <form string="Partner Ledger Report" class="oe_form_container">
+                <header>
+                    <h1>Partner Ledger Report</h1>
+                </header>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="date_from" string="From" />
+                            <field name="date_to" string="To" />
+                        </group>
+                        <group>
+                            <field name="partner_id" string="Partner" />
+                            <field name="is_summary" string="Is summary" />
+                            <field name="user_ids" widget="many2many_tags" />
+                        </group>
+                        <group string="Account Type">
+                            <field name="recievable_account" />
+                            <field name="payable_account" />
+                        </group>
+                    </group>
+                </sheet>
+                <footer>
+                    <button name="check_report" string="Print" type="object" default_focus="1" class="oe_highlight"/>
+                    <button name="print_xlsx_report" string="Export to Excel" type="object" class="oe_highlight" default_focus="1"/>
+                    <button string="Cancel" class="btn btn-default" special="cancel" />
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_account_bank_book_view" model="ir.actions.act_window">
+        <field name="name">Partner Ledger Report</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">account.report.partner.ledger</field>
+        <field name="view_id" ref="account_bank_ledger_report_view"/>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+    <menuitem id="account_bank_book_menu" name="Partner Ledger Report" action="action_account_bank_book_view"
+               parent="account.menu_finance_reports"/>
+</odoo>

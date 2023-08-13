@@ -1,0 +1,937 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <template id="elect_payment_certificate_doc">
+            <div class="main py-5">
+                <div class="container">
+                    <div class="header">
+                        <div class="top mb-4">
+                            <div class="row">
+                                <div class="col-8">
+                                    <div class="row">
+                                        <div class="comp-details text-left mb-lg-0 mb-3">
+                                            <!-- <div class="logo">
+                                                <img t-if="o.company_id.logo" t-att-src="image_data_uri(o.company_id.logo_web)" style="height:70px;"/>
+                                            </div> -->
+                                            <div>
+                                                <img src="/electron_custom/static/src/img/logo.png" style="width:300px; height:100px;" />
+                                            </div>
+                                        </div>
+                                        <div class="comp-details text-left mb-lg-0 mb-3" style="margin-left:20px;">
+                                            <ul class="list-unstyled">
+                                                <li t-if="o.company_id.partner_id">
+                                                    <span class="company_address" t-field="o.company_id.partner_id" t-options='{"widget": "contact", "fields": ["address"], "no_marker": true}' />
+
+                                                </li>
+                                                <li t-if="o.company_id.phone">
+                                                    Tel  :
+                                                    <span t-field="o.company_id.phone" />
+                                                </li>
+                                                <li t-if="o.company_id.vat">
+                                                    <t t-esc="o.company_id.country_id.vat_label or 'Fax :'" />
+                                                    <span t-field="o.company_id.vat" />
+                                                </li>
+                                                <li>
+                                                    Email :  Accountant@electron-mep.com
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-4">
+                                    <div style="height:90px;">
+                                        <table class="table table-bordered comp-d-table tablepadd" style="border: 1px solid black;">
+                                            <tbody>
+                                                <tr>
+                                                    <h6>
+                                                        <t t-if="o.state != 'posted'">
+                                                            <div class="text-center">
+                                                                <h6 style="background-color: #f5f5f5;">
+                                                            Draft Payment Certificate
+                                                                </h6>
+                                                            </div>
+                                                        </t>
+                                                        <t t-if="o.state == 'posted'">
+                                                            <div class="text-center">
+                                                                <h6 style="background-color: #f5f5f5;">
+                                                          Payment Certificate
+                                                                </h6>
+                                                            </div>
+                                                        </t>
+                                                    </h6>
+                                                </tr>
+                                                <tr>
+                                                    <td style="padding:5px; background-color: #f5f5f5; ">REF NO :</td>
+                                                    <td style="padding:5px;">
+                                                        <span t-field="o.name" />
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td style="padding:5px;">Date :</td>
+                                                    <td style="padding:5px;">
+                                                        <!-- <span t-field="o.date_order" t-options='{"widget": "date"}' /> -->
+                                                        <span t-esc="context_timestamp(datetime.datetime.now()).strftime('%d/%m/%Y')" />
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td style="padding:5px; font-size: 12px; ">Number of Pages:</td>
+                                                    <td style="padding:5px;">
+                                                        <span class="topage" />
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+
+                    <t t-call="web.html_container">
+                        <t t-call="web.internal_layout">
+
+                            <link rel="stylesheet" type="text/scss" href="/electron_custom/static/src/scss/bootstrap.min.scss" />
+                            <link rel="stylesheet" type="text/scss" href="/electron_custom/static/src/scss/reportstyle.css" />
+
+
+                            <t t-set="o" t-value="o.with_context({'lang':o.partner_id.lang})" />
+                            <div class="second-section mt-5 text-md-left text-left">
+                                <br />
+                                <table class="table table-bordered comp-d-table tablepadd" style="border: 1px solid black;">
+                                    <tbody>
+                                        <tr>
+                                            <td class="text-left" style="width:60%; border: 2px solid black;">
+                                                <h6 style="text-decoration: underline;">Please Pay to Supplier/Contarctor:</h6>
+                                                <ul class="list-unstyled">
+                                                    <li t-if="o.partner_id">
+                                                        <strong>M/S:</strong>
+                                                        &#160;
+                                                        <span t-field="o.partner_id" />
+                                                    </li>
+                                                    <li>
+                                                        <strong>LPO/Contract  No:</strong>
+                                                        &#160;
+                                                        <span t-field="o.inv_origin_id.name" />
+                                                    </li>
+                                                    <li>
+                                                        <strong>INV No:</strong>
+                                                        &#160;
+                                                        <span t-field="o.name" />
+                                                    </li>
+                                                    <li>
+                                                        <strong>LPO Total Amount</strong>
+                                                        &#160;
+                                                        <span t-field="o.inv_origin_id.amount_total" />
+                                                    </li>
+                                                </ul>
+                                            </td>
+                                            <td class="text-left" style="width:40%; border: 2px solid black;">
+                                                <ul class="list-unstyled">
+                                                    <li>
+                                                        <strong>Date:</strong>
+                                                        &#160;
+                                                        <span t-field="o.invoice_date" t-options='{"widget": "date"}' />
+                                                    </li>
+                                                    <li>
+                                                        <strong>Project Name:</strong>
+                                                        &#160;
+                                                        <span t-field="o.inv_origin_id.project_id" />
+                                                    </li>
+                                                    <li>
+                                                        <strong>Project Code:</strong>
+                                                        &#160;
+                                                        <span t-field="o.inv_origin_id.project_id.project_code" />
+                                                    </li>
+                                                    <li>
+                                                        <strong>DN Number:</strong>
+                                                        &#160;
+                                                        <span t-field="o.dn_number" />
+                                                    </li>
+                                                    <li>
+                                                        <strong>Delivery date:</strong>
+                                                        &#160;
+                                                        <span t-field="o.inv_origin_id.effective_date" t-options='{"widget": "date"}' />
+                                                    </li>
+                                                </ul>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+
+                            </div>
+
+
+                            <div class="page">
+                                <table class="table table-sm o_main_table" style="border: 2px solid black;">
+                                    <thead>
+                                        <tr class="text-center" style="background-color: #f5f5f5; border: 2px solid black;">
+                                            <th style="width:2%;">
+                                    SN
+                                            </th>
+                                            <th style="width:38%;">
+                                    Description
+                                            </th>
+                                            <th style="width:25%;">
+                                    Certified Quantity
+                                            </th>
+                                            <th style="width:5%;">
+                                    Newley Certified Amount
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <t t-foreach="o.invoice_line_ids" t-as="line">
+                                            <tr t-att-class="'bg-200 font-weight-bold o_line_section' if line.display_type == 'line_section' else 'font-italic o_line_note' if line.display_type == 'line_note' else ''" style="font-size: 12px; width:100%;">
+                                                <!-- <tr style="font-size: 12px; width:100%;"> -->
+                                                <t t-if="not line.display_type">
+                                                    <td class="text-center" style="width:5%;">
+                                                        <span t-field="line.sequence_ref" />
+                                                    </td>
+                                                    <td>
+                                                        <span t-field="line.product_id.name" style="font-size: 12px; width:45%;" />
+                                                    </td>
+                                                    <td class="text-center">
+                                                        <span t-field="line.quantity" style="font-size: 12px; width:20%;" />
+                                                    </td>
+                                                    <td class="text-center" style="width:30%;">
+                                                        <span t-field="line.price_subtotal" />
+                                                    </td>
+                                                </t>
+                                                <t t-else="">
+                                                    <td colspan="7" class="text-left" id="section">
+                                                        <span t-field="line.name"/>
+                                                    </td>
+                                                </t>
+                                            </tr>
+                                        </t>
+                                        <tr>
+                                            <td colspan="3" class="text-right" style=" background-color: #f5f5f5; width:80%;">
+                                                                    Previouse Certified Amount
+                                            </td>
+                                            <td class="text-right" style="width:20%;">
+                                                <!-- <t t-set="payments_vals" t-value="o.sudo()._get_reconciled_info_JSON_values()"/>
+                                                <t t-foreach="payments_vals" t-as="payment_vals">
+                                                 Paid on   <span t-esc="payment_vals['date']" t-options='{"widget": "date"}'/>
+                                                <span t-esc="payment_vals['amount']" t-options='{"widget": "monetary", "display_currency": o.currency_id}'/> <br/>
+                                            </t> -->
+                                                <span t-field="o.certified_amount_total" t-options='{"widget": "monetary", "display_currency": o.currency_id}' />
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="3" class="text-right" style=" background-color: #f5f5f5; width:80%;">
+                                                                    Gross Total
+                                            </td>
+                                            <td class="text-right" style="width:20%;">
+                                                <span t-field="o.amount_residual" />
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="3" class="text-right" style=" background-color: #f5f5f5; width:80%;">
+                                                                    Less
+                                            </td>
+                                            <td class="text-right" style="width:20%;">
+                                                <!-- <span t-field="o.price_subtotal"/> -->
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="3" class="text-right" style=" background-color: #f5f5f5; width:80%;">
+                                                                    Recovery of Advanced Payment
+                                            </td>
+                                            <td class="text-right" style="width:20%;">
+                                                <!-- <span t-field="o.amount_total"/> -->
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="3" class="text-right" style=" background-color: #f5f5f5; width:80%;">
+                                                                    Retention
+                                            </td>
+                                            <td class="text-right" style="width:20%;">
+                                                <!-- <span t-field="o.amount_total"/> -->
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="3" class="text-right" style=" background-color: #f5f5f5; width:80%;">
+                                                                    Net Total
+                                            </td>
+                                            <td class="text-right" style="width:20%;">
+                                                <!-- <span t-field="o.amount_total"/> -->
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="4" class="text-left">
+                                                <!-- <strong>
+                                                                    <h6>Qatari Riyals: Seventy Six Thousand One Hundred Twelve Only</h6>
+                                                                </strong> -->
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <p style="page-break-after:always;"></p>
+                                <br />
+                                <table class="table table-sm o_main_table">
+                                    <thead>
+                                        <tr class="text-left" style="border: 2px solid black;">
+                                            <th colspan="6" class="text-left" style="width:100%;border: 2px solid black;">
+                                                <strong>
+                                                    <h5 style="text-decoration: underline;">Notes: </h5>
+                                                </strong>
+                                                <p style="font-size: 12px;"> 
+                                                Payment will be released with in 15 days from the date of approvals and eligibility </p>
+                                                <p style="font-size: 12px;" t-field="o.inv_origin_id.notes" />
+                                            </th>
+                                        </tr>
+                                        <tr>
+                                            <th colspan="6" class="text-left" style="width:100%;border: 2px solid black;">
+                                                <strong>
+                                                    <h5 style="text-decoration: underline;">Attachments: </h5>
+                                                </strong>
+                                                <p style="font-size: 12px;" t-field="o.inv_origin_id.attachments" />
+                                                <p style="font-size: 12px;">
+                                                    1- Originial Copy of the Invoice
+                                                    <br />
+                                                    2- Original Copy of the Delivery Note
+                                                    <br />
+                                                    3- Original LPO or Contract copy
+                                                    <br />
+                                                    4- Consultant approval
+                                                    <br />
+                                                </p>
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td colspan="3" class="text-center" style="border: 2px solid black; width:50%;">
+                                                <strong>
+                                                    <h5> Prepared by </h5>
+                                                </strong>
+                                            </td>
+                                            <td colspan="3" class="text-center" style="border: 2px solid black; width:50%;">
+                                                <strong>
+                                                    <h5> Checked by </h5>
+                                                </strong>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="3" style="border: 2px solid black; width:50%; height:90px;">
+                                                <ul class="list-unstyled">
+                                                    <li class="text-left">
+                                                                    Name :
+                                                    </li>
+                                                    <li class="text-left">
+                                                                    Signature :
+                                                    </li>
+                                                    <li class="text-left">
+                                                                    Date :
+                                                    </li>
+                                                </ul>
+                                            </td>
+                                            <td colspan="3" style="border: 2px solid black; width:50%; height:90px;">
+                                                <ul class="list-unstyled">
+                                                    <li class="text-left">
+                                                                    Name :
+                                                    </li>
+                                                    <li class="text-left">
+                                                                    Signature :
+                                                    </li>
+                                                    <li class="text-left">
+                                                                    Date :
+                                                    </li>
+                                                </ul>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="3" class="text-center" style="border: 2px solid black; width:50%;">
+                                                <strong>
+                                                    <h5> Attested by </h5>
+                                                </strong>
+                                            </td>
+                                            <td colspan="3" class="text-center" style="border: 2px solid black; width:50%;">
+                                                <strong>
+                                                    <h5> Approved by </h5>
+                                                </strong>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="3" style="border: 2px solid black; width:50%; height:90px;">
+                                                <ul class="list-unstyled">
+                                                    <li class="text-left">
+                                                                    Name :
+                                                    </li>
+                                                    <li class="text-left">
+                                                                    Signature :
+                                                    </li>
+                                                    <li class="text-left">
+                                                                    Date :
+                                                    </li>
+                                                </ul>
+                                            </td>
+                                            <td colspan="3" style="border: 2px solid black; width:50%; height:90px;">
+
+                                                <ul class="list-unstyled">
+                                                    <li class="text-left">
+                                                                    Name :
+                                                    </li>
+                                                    <li class="text-left">
+                                                                    Signature :
+                                                    </li>
+                                                    <li class="text-left">
+                                                                    Date :
+                                                    </li>
+                                                </ul>
+
+                                            </td>
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <div class="footer">
+                                    <strong class="text-left">
+                                        <h6 style="opacity: 0.4;"> QMS REF NO.: EEM-PRJ-F005|00 </h6>
+                                    </strong>
+                                    <strong class="text-right">
+                                        <h6 style="opacity: 0.4;">
+                                            <span t-esc="context_timestamp(datetime.datetime.now()).strftime('%Y-%m-%d %H:%M')"/>
+                                        </h6>
+                                    </strong>
+                                    <span class="page" />
+                                    of
+                                    <span class="topage" />
+                                </div>
+                            </div>
+                        </t>
+                    </t>
+                </div>
+            </div>
+        </template>
+
+        <template id="elect_invoice_doc">
+            <div class="main py-5">
+                <div class="container">
+                    <div class="header">
+                        <div class="top mb-4">
+                            <div class="row">
+                                <div class="col-8">
+                                    <div class="row">
+                                        <div class="comp-details text-left mb-lg-0 mb-3">
+                                            <!-- <div class="logo">
+                                                <img t-if="o.company_id.logo" t-att-src="image_data_uri(o.company_id.logo_web)" style="height:70px;"/>
+                                            </div> -->
+                                            <div>
+                                                <img src="/electron_custom/static/src/img/logo.png" style="width:300px; height:100px;" />
+                                            </div>
+                                        </div>
+                                        <div class="comp-details text-left mb-lg-0 mb-3" style="margin-left:20px;">
+                                            <ul class="list-unstyled">
+                                                <li t-if="o.company_id.partner_id">
+                                                    <span class="company_address" t-field="o.company_id.partner_id" t-options='{"widget": "contact", "fields": ["address"], "no_marker": true}' />
+
+                                                </li>
+                                                <li t-if="o.company_id.phone">
+                                                    Tel  :
+                                                    <span t-field="o.company_id.phone" />
+                                                </li>
+                                                <li t-if="o.company_id.vat">
+                                                    <t t-esc="o.company_id.country_id.vat_label or 'Fax :'" />
+                                                    <span t-field="o.company_id.vat" />
+                                                </li>
+                                                <li>
+                                                    Email :  Accountant@electron-mep.com
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    <!-- <t t-esc="Email :  Accountant@electron-mep.com" /> -->
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-4">
+                                    <div style="height:90px;">
+                                        <table class="table table-bordered comp-d-table tablepadd" style="border: 1px solid black;">
+                                            <tbody>
+                                                <tr>
+                                                    <h6>
+                                                        <t t-if="o.state != 'posted'">
+                                                            <div class="text-center">
+                                                                <h6 style="background-color: #f5f5f5;">
+                                                            Draft Invoice
+                                                                </h6>
+                                                            </div>
+                                                        </t>
+                                                        <t t-if="o.state == 'posted'">
+                                                            <div class="text-center">
+                                                                <h6 style="background-color: #f5f5f5;">
+                                                          Invoice
+                                                                </h6>
+                                                            </div>
+                                                        </t>
+                                                    </h6>
+                                                </tr>
+                                                <tr>
+                                                    <td style="padding:5px; background-color: #f5f5f5; ">REF NO :</td>
+                                                    <td style="padding:5px;">
+                                                        <span t-field="o.name" />
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td style="padding:5px;">Date :</td>
+                                                    <td style="padding:5px;">
+                                                        <!-- <span t-field="o.date_order" t-options='{"widget": "date"}' /> -->
+                                                        <span t-esc="context_timestamp(datetime.datetime.now()).strftime('%d/%m/%Y')" />
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td style="padding:5px;  font-size: 12px; ">Number of Pages:</td>
+                                                    <td style="padding:5px;">
+                                                        <span class="topage" />
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+
+                    <t t-call="web.html_container">
+                        <t t-call="web.internal_layout">
+
+                            <link rel="stylesheet" type="text/scss" href="/electron_custom/static/src/scss/bootstrap.min.scss" />
+                            <link rel="stylesheet" type="text/scss" href="/electron_custom/static/src/scss/reportstyle.css" />
+
+
+                            <t t-set="o" t-value="o.with_context({'lang':o.partner_id.lang})" />
+                            <div class="second-section mt-5 text-md-left text-left">
+                                <br />
+                                <table class="table table-bordered comp-d-table tablepadd" style="border: 1px solid black;">
+                                    <tbody>
+                                        <tr>
+                                            <td class="text-left" style="width:60%; border: 2px solid black;">
+                                                <h6 style="text-decoration: underline;">Please Pay to Supplier/Contarctor:</h6>
+                                                <ul class="list-unstyled">
+                                                    <li t-if="o.partner_id">
+                                                        <strong>M/S:</strong>
+                                                        &#160;
+                                                        <span t-field="o.partner_id" />
+                                                    </li>
+                                                    <li>
+                                                        <strong>LPO/Contract  No:</strong>
+                                                        &#160;
+                                                        <span t-field="o.inv_origin_id.name" />
+                                                    </li>
+                                                    <li>
+                                                        <strong>INV No:</strong>
+                                                        &#160;
+                                                        <span t-field="o.name" />
+                                                    </li>
+                                                    <li>
+                                                        <strong>LPO Total Amount</strong>
+                                                        &#160;
+                                                        <span t-field="o.inv_origin_id.amount_total" />
+                                                    </li>
+                                                </ul>
+                                            </td>
+                                            <td class="text-left" style="width:40%; border: 2px solid black;">
+                                                <ul class="list-unstyled">
+                                                    <li>
+                                                        <strong>Date:</strong>
+                                                        &#160;
+                                                        <span t-field="o.invoice_date" t-options='{"widget": "date"}' />
+                                                    </li>
+                                                    <li>
+                                                        <strong>Project Name:</strong>
+                                                        &#160;
+                                                        <span t-field="o.inv_origin_id.project_id" />
+                                                    </li>
+                                                    <li>
+                                                        <strong>Project Code:</strong>
+                                                        &#160;
+                                                        <span t-field="o.inv_origin_id.project_id.project_code" />
+                                                    </li>
+                                                    <li>
+                                                        <strong>DN Number:</strong>
+                                                        &#160;
+                                                        <span t-field="o.dn_number" />
+                                                    </li>
+                                                    <li>
+                                                        <strong>Delivery date:</strong>
+                                                        &#160;
+                                                        <span t-field="o.inv_origin_id.effective_date" t-options='{"widget": "date"}' />
+                                                    </li>
+                                                </ul>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+
+                            </div>
+
+
+                            <div class="page">
+                                <table class="table table-sm o_main_table" style="border: 2px solid black;">
+                                    <thead>
+                                        <tr class="text-center" style="background-color: #f5f5f5; width:100%; border: 2px solid black;">
+                                            <th style="width:5%;">
+                                    SN
+                                            </th>
+                                            <th style="width:45%;">
+                                    Description
+                                            </th>
+                                            <th style="width:20%;">
+                                    Quantity
+                                            </th>
+                                            <th style="width:10%;">
+                                    Unit Price
+                                            </th>
+                                            <th style="width:20%;">
+                                    Amount
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <t t-foreach="o.invoice_line_ids" t-as="line">
+                                            <tr t-att-class="'bg-200 font-weight-bold o_line_section' if line.display_type == 'line_section' else 'font-italic o_line_note' if line.display_type == 'line_note' else ''" style="font-size: 12px; width:100%;">
+                                                <!-- <tr style="font-size: 12px; width:100%;"> -->
+                                                <t t-if="not line.display_type">
+                                                    <td class="text-center" style="width:5%;">
+                                                        <span t-field="line.sequence_ref" />
+                                                    </td>
+                                                    <td>
+                                                        <span t-field="line.product_id.name" style="font-size: 12px; width:45%;" />
+                                                    </td>
+                                                    <td class="text-center">
+                                                        <span t-field="line.quantity" style="font-size: 12px; width:20%;" />
+                                                    </td>
+                                                    <td class="text-center" style="width:10%;">
+                                                        <span t-field="line.price_unit" />
+                                                    </td>
+                                                    <td class="text-center" style="width:20%;">
+                                                        <span t-field="line.price_subtotal" />
+                                                    </td>
+                                                </t>
+                                                <t t-else="">
+                                                    <td colspan="7" class="text-left" id="section">
+                                                        <span t-field="line.name"/>
+                                                    </td>
+                                                </t>
+                                            </tr>
+                                        </t>
+                                        <tr style="width:100%;">
+                                            <td colspan="4" class="text-right" style=" background-color: #f5f5f5; width:80%;">
+                                                                    Net Total
+                                            </td>
+                                            <td class="text-right" style="width:20%;">
+                                                <span t-field="o.amount_total" />
+                                            </td>
+                                        </tr>
+
+                                    </tbody>
+                                </table>
+                                <!-- <p style="page-break-after:always;"></p> -->
+                                <div class="footer">
+                                    <strong class="text-left">
+                                        <h6 style="opacity: 0.4;"> QMS REF NO.: EEM-PRJ-F005|00 </h6>
+                                    </strong>
+                                    <strong class="text-right">
+                                        <h6 style="opacity: 0.4;">
+                                            <span t-esc="context_timestamp(datetime.datetime.now()).strftime('%Y-%m-%d %H:%M')"/>
+                                        </h6>
+                                    </strong>
+                                    <span class="page" />
+                                    of
+                                    <span class="topage" />
+                                </div>
+                            </div>
+                        </t>
+                    </t>
+                </div>
+            </div>
+        </template>
+
+        <template id="elect_trading_invoice_doc">
+            <div class="main py-5">
+                <div class="container">
+                    <div class="header">
+                        <div class="top mb-4">
+                            <div class="row">
+                                <div>
+                                    <t t-if="o.move_type == 'out_invoice' ">
+                                        <img src="/electron_custom/static/src/img/Trading_invoice_header.png" style="width:100%; height:140px;" />
+                                    </t>
+                                    <t t-if="o.move_type == 'in_invoice' ">
+                                        <img src="/electron_custom/static/src/img/Trading_invoice_header.png" style="width:100%; height:140px;" />
+                                    </t>
+                                    <t t-if="o.move_type == 'in_refund' ">
+                                        <img src="/electron_custom/static/src/img/Trading_credit_header.png" style="width:100%; height:140px;" />
+                                    </t>
+                                    <t t-if="o.move_type == 'out_refund' ">
+                                        <img src="/electron_custom/static/src/img/Trading_credit_header.png" style="width:100%; height:140px;" />
+                                    </t>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+
+                    <t t-call="web.html_container">
+                        <t t-call="web.internal_layout">
+
+                            <link rel="stylesheet" type="text/scss" href="/electron_custom/static/src/scss/bootstrap.min.scss" />
+                            <link rel="stylesheet" type="text/scss" href="/electron_custom/static/src/scss/reportstyle.css" />
+
+
+                            <t t-set="o" t-value="o.with_context({'lang':o.partner_id.lang})" />
+                            <div class="second-section mt-5 text-md-left text-left">
+                                <div class="row">
+                                    <br />
+                                    <div style="width:50%; margin-right: 35px;margin-left:15px;">
+                                        <img src="/electron_custom/static/src/img/Trading_info.png" style="width:100%; height:200px;" />
+                                    </div>
+                                    <div style="width:30%;margin-left: 100px;">
+                                        <table class="table table-sm o_main_table" style="border: 2px solid black; height:200px;">
+                                            <tbody>
+                                                <tr>
+                                                    <td style="background-color: #f5f5f5; width:40%;"> INV No. </td>
+                                                    <td style="width:60%;">
+                                                        <span t-field="o.name" />
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td style="background-color: #f5f5f5; width:40%;"> Date </td>
+                                                    <td style="width:60%;">
+                                                        <span t-field="o.invoice_date" />
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td style="background-color: #f5f5f5; width:40%;"> Payment </td>
+                                                    <td style="width:60%;">
+                                                        <span t-field="o.amount_total" />
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td style="background-color: #f5f5f5; width:40%;"> LPO NO. </td>
+                                                    <td style="width:60%;">
+                                                        <span t-field="o.lpo_no" />
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td style="background-color: #f5f5f5; width:40%;"> QTN. NO. </td>
+                                                    <td style="width:60%;">
+                                                        <span t-field="o.invoice_origin" />
+                                                    </td>
+                                                </tr>
+                                                <!-- <tr>
+                                                    <td style="background-color: #f5f5f5; width:40%;"> PO Number </td>
+                                                    <td style="width:60%;">
+                                                        <span t-field="o.po_num" />
+                                                    </td>
+                                                </tr> -->
+                                                <tr>
+                                                    <t t-if="o.delivery_note">
+                                                        <td style="background-color: #f5f5f5; width:40%;"> Delivery No. </td>
+                                                        <td style="width:60%;">
+                                                            <span t-field="o.delivery_note" />
+                                                        </td>
+                                                    </t>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                                <div style="width:50%; margin-right: 35px;margin-left:15px;">
+                                    <span t-field="o.partner_id.name" />
+                                    <span class="company_address" t-field="o.partner_id" t-options='{"widget": "contact", "fields": ["address"], "no_marker": true}' />
+                                    <span t-field="o.partner_id.phone" />
+                                    <span t-field="o.partner_id.email" />
+                                </div>
+                                <div style="width:55%; margin-right: 35px;">
+                                    <img src="/electron_custom/static/src/img/trading_line.png" style="width:96%;" />
+                                </div>
+                            </div>
+                            <br/>
+                            <div class="page">
+                                <table class="table table-sm o_main_table" style="border: 2px solid black;">
+                                    <thead>
+                                        <tr class="text-center" style="background-color: #f5f5f5; width:100%;">
+                                            <th style="width:5%; border: 1px solid black;">
+                                    SN
+                                            </th>
+                                            <th style="width:20%; border: 1px solid black;">
+                                    Code
+                                            </th>
+                                            <th style="width:45%; border: 1px solid black;">
+                                    Description
+                                            </th>
+                                            <th style="width:5%; border: 1px solid black;">
+                                    Unit
+                                            </th>
+                                            <th style="width:5%; border: 1px solid black;">
+                                    Qty.
+                                            </th>
+                                            <th style="width:10%; border: 1px solid black;">
+                                    U.Price (QAR)
+                                            </th>
+                                            <!-- <th style="width:10%; border: 1px solid black;">
+                                    Disc (%)
+                                            </th> -->
+                                            <th style="width:10%; border: 1px solid black;">
+                                    T.Price (QAR)
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <t t-foreach="o.invoice_line_ids" t-as="line">
+                                            <tr t-att-class="'bg-200 font-weight-bold o_line_section' if line.display_type == 'line_section' else 'font-italic o_line_note' if line.display_type == 'line_note' else ''" style="font-size: 12px; width:100%;">
+                                                <!-- <tr style="font-size: 12px; width:100%;"> -->
+                                                <t t-if="not line.display_type">
+                                                    <td class="text-center" style="width:5%;  text-align: center; border: 1px solid black;">
+                                                        <span t-field="line.sequence_ref" />
+                                                    </td>
+                                                    <td class="text-center" style="width:20%;  text-align: center; border: 1px solid black;">
+                                                        <span t-field="line.product_id.default_code" />
+                                                    </td>
+                                                    <td style="font-size: 12px; width:45%;  text-align: center; border: 1px solid black;">
+                                                        <span t-field="line.name" />
+                                                    </td>
+                                                    <td class="text-center" style="width:5%;  text-align: center; border: 1px solid black;">
+                                                        <span t-field="line.product_uom_id"/>
+                                                    </td>
+                                                    <td class="text-center" style="width:5%;  text-align: center; border: 1px solid black;">
+                                                        <span t-field="line.quantity" />
+                                                    </td>
+                                                    <td class="text-center" style="width:10%;  text-align: center; border: 1px solid black;">
+                                                        <span t-field="line.price_unit" />
+                                                    </td>
+                                                    <!-- <td class="text-center" style="width:10%;  text-align: center; border: 1px solid black;">
+                                                        <span t-field="line.discount" />
+                                                    </td> -->
+                                                    <td class="text-center" style="width:20%;  text-align: center; border: 1px solid black;">
+                                                        <span t-field="line.price_subtotal" />
+                                                    </td>
+                                                </t>
+                                                <t t-else="">
+                                                    <td colspan="7" class="text-left" id="section">
+                                                        <span t-field="line.name"/>
+                                                    </td>
+                                                </t>
+                                            </tr>
+                                        </t>
+                                    </tbody>
+                                </table>
+                                <div class="clearfix" position = "after">
+                                    <p style="font-size: 14px;">
+                                        <strong> AMOUNT IN WORDS: </strong>
+                                        <span t-field="o.word_amount_total"/>
+                                    </p>
+                                </div>
+                                <div class = "row">
+                                    <div style="width:50%; margin-right: 40px;margin-left:15px;">
+                                        <p class="text-left" style="font-size: 14px;">
+                                            <span t-field="o.narration" />
+                                        </p>
+                                    </div>
+                                    <div class="text-center" style="width:30%;margin-left: 100px;">
+                                        <table class="table table-sm o_main_table" style="border: 2px solid black; height:100px;">
+                                            <tbody>
+                                                <tr>
+                                                    <td style="background-color: #f5f5f5; width:40%;"> Total</td>
+                                                    <td style="width:60%;">
+                                                        <span t-field="o.total_no_disc" />
+ QR
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td style="background-color: #f5f5f5; width:40%;"> Discount </td>
+                                                    <td style="width:60%;">
+                                                        <span t-field="o.discount" />
+ QR
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td style="background-color: #f5f5f5; width:40%;"> Net Total </td>
+                                                    <td style="width:60%;">
+                                                        <span t-field="o.amount_total" />
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                                <div class="footer">
+                                    <div style="width:100%;">
+                                        <img src="/electron_custom/static/src/img/trading_invoice_footer.png" style="width:100%; height:200px;" />
+                                    </div>
+                                </div>
+                            </div>
+                        </t>
+                    </t>
+                </div>
+            </div>
+        </template>
+
+        <template id="elect_report_invoice" inherit_id="account.report_invoice">
+            <xpath expr="//t[@t-call='web.html_container']" position="replace">
+                <t t-call="web.html_container">
+                    <t t-foreach="docs" t-as="o">
+                        <t t-if="o.company_id.name == 'ELECTRON MEP'">
+                            <t t-set="lang" t-value="o.invoice_user_id.sudo().lang if o.move_type in ('in_invoice', 'in_refund') else o.partner_id.lang" />
+                            <t t-if="o._get_name_invoice_report() == 'account.report_invoice_document'" t-call="electron_custom.elect_invoice_doc" t-lang="lang" />
+                        </t>
+                        <t t-if="o.company_id.name != 'ELECTRON MEP'">
+                            <t t-set="lang" t-value="o.invoice_user_id.sudo().lang if o.move_type in ('in_invoice', 'in_refund') else o.partner_id.lang" />
+                            <t t-if="o._get_name_invoice_report() == 'account.report_invoice_document'" t-call="electron_custom.elect_trading_invoice_doc" t-lang="lang" />
+                        </t>
+                    </t>
+                </t>
+            </xpath>
+        </template>
+
+        <template id="elect_report_invoice_with_payments" inherit_id="account.report_invoice_with_payments">
+            <xpath expr="//t[@t-call='web.html_container']" position="replace">
+                <t t-call="web.html_container">
+                    <t t-foreach="docs" t-as="o">
+                        <t t-if="o.company_id.name == 'ELECTRON MEP'">
+                            <t t-set="lang" t-value="o.invoice_user_id.sudo().lang if o.move_type in ('in_invoice', 'in_refund') else o.partner_id.lang" />
+                            <t t-set="print_with_payments" t-value="True" />
+                            <t t-if="o._get_name_invoice_report() == 'account.report_invoice_document'" t-call="electron_custom.elect_invoice_doc" t-lang="lang" />
+                        </t>
+                        <t t-if="o.company_id.name != 'ELECTRON MEP'">
+                            <t t-set="lang" t-value="o.invoice_user_id.sudo().lang if o.move_type in ('in_invoice', 'in_refund') else o.partner_id.lang" />
+                            <t t-set="print_with_payments" t-value="True" />
+                            <t t-if="o._get_name_invoice_report() == 'account.report_invoice_document'" t-call="electron_custom.elect_trading_invoice_doc" t-lang="lang" />
+                        </t>
+                    </t>
+                </t>
+            </xpath>
+        </template>
+
+        <template id="elect_payment_certificate">
+            <t t-call="web.html_container">
+                <t t-foreach="docs" t-as="o">
+                    <t t-if="o.company_id.name == 'ELECTRON MEP'">
+                        <t t-call="electron_custom.elect_payment_certificate_doc" t-lang="o.partner_id.lang" />
+                    </t>
+                    <t t-if="o.company_id.name != 'ELECTRON MEP'">
+                        <t t-call="electron_custom.elect_trading_invoice_doc" t-lang="o.partner_id.lang" />
+                    </t>
+                </t>
+            </t>
+        </template>
+        <record id="elect_payment_certificate_report" model="ir.actions.report">
+            <field name="name">Payment Certificate</field>
+            <field name="model">account.move</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">electron_custom.elect_payment_certificate</field>
+            <field name="report_file">electron_custom.elect_payment_certificate</field>
+            <field name="print_report_name">('Payment Certificate - %s' % (object.name))</field>
+            <field name="binding_model_id" ref="account.model_account_move" />
+            <field name="binding_type">report</field>
+        </record>
+
+
+    </data>
+</odoo>

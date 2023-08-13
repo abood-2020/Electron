@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!--         <record id="purchase_request_group_new1" model="res.groups">
+        <field name="name">Purchase NEW REQUEST 2</field>
+        <field name="category_id" ref="base.module_category_operations_purchase" />
+    </record> -->
+    <record id="purchase_request_group" model="res.groups">
+        <field name="name">Purchase Request</field>
+        <field name="category_id" ref="base.module_category_inventory_purchase" />
+        <!-- <field name="implied_ids" eval="[(4, ref('purchase_request_group_new'))]" /> -->
+        <field name="users" eval="[(4, ref('base.user_root')), (4, ref('base.user_admin'))]" />
+    </record>
+    <record id="purchase_request_group_GM" model="res.groups">
+        <field name="name">GM</field>
+        <field name="category_id" ref="base.module_category_inventory_purchase" />
+        <field name="implied_ids" eval="[(4, ref('purchase.group_purchase_manager'))]" />
+        <!-- <field name="users" eval="[(4, ref('base.user_root')), (4, ref('base.user_admin'))]" /> -->
+    </record>
+    <record id="purchase.group_purchase_user" model="res.groups">
+        <field name="name">User</field>
+        <field name="implied_ids" eval="[(4, ref('purchase_request.purchase_request_group'))]" />
+        <field name="category_id" ref="base.module_category_inventory_purchase" />
+    </record>
+    <record id="purchase.menu_purchase_root" model="ir.ui.menu">
+        <field name="groups_id" eval="[(4, ref('purchase_request.purchase_request_group'))]" />
+    </record>
+    <record id="purchase.menu_purchase_rfq" model="ir.ui.menu">
+        <field name="groups_id" eval="[(4, ref('purchase_request.purchase_request_group'))]" />
+    </record>
+    <record id="purchase.menu_purchase_form_action" model="ir.ui.menu">
+        <field name="groups_id" eval="[(4, ref('purchase.group_purchase_user'))]" />
+    </record>
+    <record id="purchase.menu_procurement_management_supplier_name" model="ir.ui.menu">
+        <field name="groups_id" eval="[(4, ref('purchase.group_purchase_user'))]" />
+    </record>
+    <record id="purchase.menu_purchase_products" model="ir.ui.menu">
+        <field name="groups_id" eval="[(4, ref('purchase.group_purchase_user'))]" />
+    </record>
+    <record id="purchase_requisition.menu_purchase_requisition_pro_mgt" model="ir.ui.menu">
+        <field name="groups_id" eval="[(4, ref('purchase_request.purchase_request_group'))]" />
+    </record>
+    <record id="purchase_request.menu_budget_form_action" model="ir.ui.menu">
+        <field name="groups_id" eval="[(4, ref('project.group_project_user'))]" />
+    </record>
+    <record id="project.menu_project_config" model="ir.ui.menu">
+        <field name="groups_id" eval="[(4, ref('project.group_project_user'))]" />
+    </record>
+    <record model="ir.rule" id="purchase_requester_rule">
+        <field name="name">Purchase requester rule</field>
+        <field name="model_id" ref="model_purchase_requester" />
+        <field name="groups" eval="[(4, ref('purchase_request.purchase_request_group'))]" />
+        <field name="domain_force">[('create_uid','=',user.id)]</field>
+    </record>
+    <record model="ir.rule" id="purchase_requester_rule_stock_picking">
+        <field name="name">Purchase requester rule stock picking</field>
+        <field name="model_id" ref="stock.model_stock_picking" />
+        <field name="groups" eval="[(4, ref('purchase_request.purchase_request_group'))]" />
+        <field name="domain_force">[('user_id','=',user.id)]</field>
+    </record>
+    <record model="ir.rule" id="purchase_requester_rule_stock_picking_user">
+        <field name="name">Purchase requester rule stock picking user</field>
+        <field name="model_id" ref="stock.model_stock_picking" />
+        <field name="groups" eval="[(4, ref('purchase.group_purchase_user'))]" />
+        <field name="domain_force">[]</field>
+    </record>
+    <record model="ir.rule" id="purchase_requester_user_rule">
+        <field name="name">Purchase requester user rule</field>
+        <field name="model_id" ref="model_purchase_requester" />
+        <field name="groups" eval="[(4, ref('purchase.group_purchase_user'))]" />
+        <field name="domain_force">[]</field>
+    </record>
+    <record model="ir.rule" id="purchase_requester_RFQ_rule">
+        <field name="name">Purchase requester RFQ rule</field>
+        <field name="model_id" ref="model_purchase_order" />
+        <field name="groups" eval="[(4, ref('purchase_request.purchase_request_group'))]" />
+        <field name="domain_force">[('user_id','=',user.id)]</field>
+    </record>
+    <record model="ir.rule" id="purchase_requester_user_RFQ_rule">
+        <field name="name">Purchase requester manager RFQ rule</field>
+        <field name="model_id" ref="model_purchase_order" />
+        <field name="groups" eval="[(4, ref('purchase.group_purchase_user'))]" />
+        <field name="domain_force">[]</field>
+    </record>
+    <!--     <record model="ir.rule" id="purchase_requisition_user_agreement_rule">
+        <field name="name">Purchase Requisition Requester Rule</field>
+        <field name="model_id" ref="model_purchase_requisition" />
+        <field name="groups" eval="[(4, ref('purchase.group_purchase_manager'))]" />
+        <field name="domain_force">[('user_id','=',user.id)]</field>
+    </record> -->
+    <!--     <record model="ir.rule" id="purchase_requester_manager_agreement_rule">
+        <field name="name">Purchase requester manager agreement rule</field>
+        <field name="model_id" ref="model_purchase_requisition" />
+        <field name="groups" eval="[(4, ref('purchase.group_purchase_manager'))]" />
+        <field name="domain_force">[]</field>
+    </record> -->
+    <!--     <record model="ir.rule" id="purchase_request_admin_rule">
+        <field name="name">Purchase requester rule for admin</field>
+        <field name="model_id" ref="model_purchase_requester" />
+        <field name="groups" eval="[(4, ref('purchase.group_purchase_manager'))]" />
+        <field name="domain_force">[('approver_id','=',user.id)]</field>
+    </record> -->
+</odoo>

@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="report_partner_ledger_report_templdate">
+        <t t-call="web.html_container">
+            <div class="header">
+                <div class="row">
+                    <div class="col-3">
+                        <span t-esc="context_timestamp(datetime.datetime.now()).strftime('%Y-%m-%d , %H:%M:%S')"/>
+                    </div>
+                    <div class="col-2 offset-2 text-center">
+                        <!-- <span t-esc="company.name"/> -->
+                    </div>
+                    <div class="col-2 offset-3 text-right">
+                        <ul class="list-inline">
+                            <li class="list-inline-item"><span class="page"/></li>
+                            <li class="list-inline-item">/</li>
+                            <li class="list-inline-item"><span class="topage"/></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-10">
+                        <span style="display:block; font-size:18px !important;">ELECTRON TRADING COMPANY W.L.L</span>
+                        <span style="display:block; font-size:18px !important;">DOHA-QATAR</span>
+                    </div>
+                    <div class="col-2" style="margin-right:20px">
+                        <img src="/partner_ledger_reports/static/src/electron-trading.jpg" style="height:50px;" />
+                    </div>
+                </div>
+                <div class="flex">
+                    <div class="text-left">
+                        <div class="border border-dark text-center" style="box-shadow: 3px 4px; width:250px; margin:auto; margin-bottom:20px;">
+                            <h3 class="text-center p-2" style="font-weight:900; font-size:14px !important;">Statement of Account (SOA) </h3>  
+                        </div>
+                    </div>
+                </div>
+                <div class="row" style="font-size:15px !important;">
+                    <div class="col-6" style="width:40%;">
+                        <strong>Partner Name :</strong>
+                        <span t-esc="partner_id" />
+                        <br/>
+                    </div>
+                    <div class="col-6" style="width:40%;">
+                            <strong>Date from :</strong>
+                            <span t-esc="date_from"/>
+                            <br/>
+                            <strong>Date to :</strong>
+                            <span t-esc="date_to"/>
+                    </div>
+                </div>
+            </div>
+            <div class="article">
+                <div class="page" style="font-size:11px !important;">
+                    <section class="main-content">
+                        <table class="table table-bordered" style="font-size:8;">
+                            <thead>
+                                <tr class="text-center">
+                                    <th>Date</th>
+                                    <th>Entry #</th>
+                                    <th>Acc #</th>
+                                    <th>JRNL</th>
+                                    <th>Memo</th>
+                                    <th>Due Date</th>
+                                    <!-- <th>Matching Number</th> -->
+                                    <th>Initial Balance</th>
+                                    <th>Debit</th>
+                                    <th>Credit</th>
+                                    <th>Balance</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            <t t-set="new_balance" t-value="initial_balance"/>
+                                <tr>
+                                        <td>
+                                            <span></span>
+                                        </td>
+                                        <td>
+                                            <span>Initial Balance</span>
+                                        </td>
+                                        <td>
+                                            <span></span>
+                                        </td>
+                                        <td>
+                                            <span></span>
+                                        </td>
+                                        <td>
+                                             <span></span>
+                                        </td>
+                                        <td>
+                                             <span></span>
+                                        </td>
+                                         <td>
+                                            <span t-esc="initial_balance" />
+                                        </td>
+                                        <td>
+                                             <span></span>
+                                        </td>
+                                        <!-- <td>
+                                            <span></span>
+                                        </td> -->
+                                        <td>
+                                            <span></span>
+                                        </td>
+                                        <td>
+                                            <span></span>
+                                        </td>
+                                    </tr>
+                                <t t-foreach="lines" t-as="line">
+                                    <tr>
+                                        <td>
+                                            <span t-esc="line[0]" />
+                                        </td>
+                                        <td>
+                                            <span t-esc="line[1]" />
+                                        </td>
+                                        <td>
+                                            <span t-esc="line[2]" />
+                                        </td>
+                                        <td>
+                                            <span t-esc="line[3]" />
+                                        </td>
+                                        <td>
+                                            <span t-esc="line[11]" />
+                                        </td>
+                                        <td>
+                                            <span t-esc="line[4]"/>
+                                        </td>
+                                        <!-- <td>
+                                            <span t-esc="line[9]"/>
+                                        </td> -->
+                                        <td>
+                                            <span t-esc="new_balance" /> QR
+                                        </td>
+                                        <td>
+                                            <span t-esc="line[6]" /> QR
+                                        </td>
+                                        <td>
+                                            <span t-esc="line[7]" /> QR
+                                        </td>
+                                        <td>
+                                            <span t-esc="line[10]" /> QR
+                                        </td>
+                                    </tr>
+                                    <t t-set="new_balance" t-value="line[10]"/>
+                                </t>
+                            </tbody>
+                        </table>
+                    </section>
+                    <p class="text-center"> - End of Report - </p>
+                </div>
+            </div>
+             <div class="footer" style="font-size:12px;">
+                THIS IS SYSTEM GENERATED STATEMENT -DOES NOT REQUIRE SIGN/STAMP
+            </div>
+        </t>
+    </template>
+</odoo>

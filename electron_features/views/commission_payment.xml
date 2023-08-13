@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="commissions_payments_action" model="ir.actions.act_window">
+        <field name="name">Payments Commissions</field>
+        <field name="res_model">commission.payment</field>
+        <field name="view_mode">tree</field>
+    </record>
+
+    <record model="ir.ui.view" id="view_commission_payments">
+        <field name="name">Commission Payments</field>
+        <field name="model">commission.payment</field>
+        <field name="arch" type="xml">
+            <tree string="Payments Commissions">
+                <field name="user"   />
+                <field name="month"   />
+                <field name="bank_journal" />
+                <field name="cash_journal" />
+                <field name="sales_amount" string="Receivable Amount"/>
+                <field name="commission" />
+            </tree>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="view_commission_payments_search">
+        <field name="name">Commission Payments Search</field>
+        <field name="model">commission.payment</field>
+        <field name="arch" type="xml">
+            <search string="Tests">
+                <field name="user"/>
+                <field name="month"/>
+                  <group expand="0" string="Group By">
+                    <filter name="user" string="Sale Person" context="{'group_by': 'user'}"/>
+                    <filter name="month" string="Month" context="{'group_by': 'month'}"/>
+                  </group>
+            </search>
+        </field>
+    </record>
+
+
+    <menuitem id="attendance_stat" name="Commissions" action="commissions_payments_action" parent="account.menu_finance_receivables" />
+
+</odoo>

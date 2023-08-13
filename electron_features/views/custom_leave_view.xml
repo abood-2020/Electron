@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+  <data>
+    <record id="view_custom_timeoff_form" model="ir.ui.view">
+      <field name="name">Custom Time Off Types Form</field>
+      <field name="model">hr.leave.type</field>
+      <field name="inherit_id" ref="hr_holidays.edit_holiday_status_form"/>
+      <field name="arch" type="xml">
+        <xpath expr="//group[@name='description']" position="inside">
+          <field name="is_paid"/>
+          <field name="is_public"/>
+        </xpath>
+      </field>
+    </record>
+  </data>
+</odoo>

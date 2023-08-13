@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding='UTF-8'?>
+<odoo>
+    <data>
+        <record id="work_entry_type_1" model="hr.work.entry.type">
+            <field name="name">Basic Salary</field>
+            <field name="code">BASA-01</field>
+        </record>
+        <record id="work_entry_type_2" model="hr.work.entry.type">
+            <field name="name">Allowance Salary</field>
+            <field name="code">ALWS-02</field>
+        </record>
+        <record id="work_entry_type_3" model="hr.work.entry.type">
+            <field name="name">Friday Overtime</field>
+            <field name="code">FNOT-03</field>
+        </record>
+        <record id="work_entry_type_4" model="hr.work.entry.type">
+            <field name="name">Noraml Overtime</field>
+            <field name="code">NOTS-04</field>
+        </record>
+        <record id="work_entry_type_5" model="hr.work.entry.type">
+            <field name="name">Loans</field>
+            <field name="code">LODED</field>
+        </record>
+        <record id="work_entry_type_6" model="hr.work.entry.type">
+            <field name="name">Paid Leave Allowance</field>
+            <field name="code">LEVE-06</field>
+        </record>
+        <record id="work_entry_type_7" model="hr.work.entry.type">
+            <field name="name">Salary Advance</field>
+            <field name="code">SADV-07</field>
+        </record>
+        <record id="work_entry_type_8" model="hr.work.entry.type">
+            <field name="name">Public Paid Leave</field>
+            <field name="code">PCLV-08</field>
+        </record>
+        <record id="hr_payslip_input_type_1" model="hr.payslip.input.type">
+            <field name="name">Partial Payment</field>
+            <field name="code">PPDED</field>
+        </record>
+    </data>
+</odoo>

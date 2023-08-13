@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="report_bank_book">
+        <t t-call="web.html_container">
+            <t t-set="data_report_margin_top" t-value="12"/>
+            <t t-set="data_report_header_spacing" t-value="9"/>
+            <t t-set="data_report_dpi" t-value="110"/>
+
+            <t t-call="web.internal_layout">
+                <div class="page">
+                    <div style="display:flex; justify-content:space-between;">
+                        <div class="left">
+                            <span style="display:block; font-size:20px;">ELECTRON TRADING COMPANY W.L.L</span>
+                            <span style="display:block; font-size:20px;">DOHA-QATAR</span>
+                        </div>
+                        <div class="right">
+                            <ul style="list-style-type:none;">
+                                <li>
+                                    <strong>Date :</strong> 
+                                    <span t-esc="time.strftime('%Y-%m-%d %H:%M:%S')" />
+                                </li>
+                                <li>
+                                    <strong>Page No :</strong> 
+                                    <span>1 of 3</span>
+                                </li>
+                                <li>
+                                    <strong>Report No :</strong> 
+                                    <span> REP-023</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="flex">
+                        <div class="text-left">
+                            <div class="border border-dark text-center" style="box-shadow: 3px 4px; width:200px; margin:auto; margin-bottom:20px;">
+                                <h3 class="text-center p-2" style="font-weight:900;">Ledger Details </h3>  
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-4" style="width:40%;">
+                            <strong>Journals:</strong>
+                            <p t-esc="', '.join([ lt or '' for lt in print_journal ])"/>
+                        </div>
+                        <div class="col-xs-4" style="width:30%;">
+                            <!-- <strong>Display Account</strong>
+                            <p>
+                                <span t-if="data['display_account'] == 'all'">All accounts'</span>
+                                <span t-if="data['display_account'] == 'movement'">With movements</span>
+                                <span t-if="data['display_account'] == 'not_zero'">With balance not equal to zero</span>
+                            </p> -->
+                            <strong>Acc #.</strong>
+                            <span t-esc="account_id['code']"/>
+                            <br/>
+                            <strong>Account Name</strong>
+                            <span t-esc="account_id['name']"/>
+                            <br/>
+                        </div>
+                        <div class="col-xs-4" style="width:30%;">
+                            <!-- <strong>Target Moves:</strong>
+                            <p t-if="data['target_move'] == 'all'">All Entries</p>
+                            <p t-if="data['target_move'] == 'posted'">All Posted Entries</p> -->
+                             <t t-if="data['date_from']">
+                                <strong>Date from :</strong>
+                                <span t-esc="data['date_from']"/>
+                                <br/>
+                            </t>
+                            <t t-if="data['date_to']">
+                                <strong>Date to :</strong>
+                                <span t-esc="data['date_to']"/>
+                            </t>
+                        </div>
+                    </div>
+                    <br/>
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr class="text-center">
+                                <th>Date</th>
+                                <th>JRNL</th>
+                                <th>Partner</th>
+                                <!-- <th>Acc #</th> -->
+                                <th>Move</th>
+                                <th>Note</th>
+                                <th>Debit</th>
+                                <th>Credit</th>
+                                <th>Balance</th>
+                                <th groups="base.group_multi_currency">Currency</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <t t-foreach="Accounts" t-as="account">
+                                <tr style="font-weight: bold;">
+                                    <td colspan="6">
+                                        <span style="color: white;" t-esc="'..'"/>
+                                        <span t-esc="account['code']"/>
+                                        <span t-esc="account['name']"/>
+                                    </td>
+                                    <td class="text-right">
+                                        <span t-esc="account['debit']"
+                                              t-options="{'widget': 'monetary', 'display_currency': env.company.currency_id}"/>
+                                    </td>
+                                    <td class="text-right">
+                                        <span t-esc="account['credit']"
+                                              t-options="{'widget': 'monetary', 'display_currency': env.company.currency_id}"/>
+                                    </td>
+                                    <td class="text-right">
+                                        <span t-esc="account['balance']"
+                                              t-options="{'widget': 'monetary', 'display_currency': env.company.currency_id}"/>
+                                    </td>
+                                    <td groups="base.group_multi_currency"/>
+                                </tr>
+                                <tr t-foreach="account['move_lines']" t-as="line">
+                                    <td>
+                                        <span t-esc="line['ldate']"/>
+                                    </td>
+                                    <td>
+                                        <span t-esc="line['lcode']"/>
+                                    </td>
+                                    <td>
+                                        <span t-esc="line['partner_name']"/>
+                                    </td>
+                                    <td>
+                                        <span t-esc="line['move_name']"/>
+                                    </td>
+                                    <td>
+                                        <span t-esc="line['lname']"/>
+                                    </td>
+                                    <td class="text-right">
+                                        <span t-esc="line['debit']"
+                                              t-options="{'widget': 'monetary', 'display_currency': env.company.currency_id}"/>
+                                    </td>
+                                    <td class="text-right">
+                                        <span t-esc="line['credit']"
+                                              t-options="{'widget': 'monetary', 'display_currency': env.company.currency_id}"/>
+                                    </td>
+                                    <td class="text-right">
+                                        <span t-esc="line['balance']"
+                                              t-options="{'widget': 'monetary', 'display_currency': env.company.currency_id}"/>
+                                    </td>
+                                    <td t-if="line['amount_currency']" class="text-right" groups="base.group_multi_currency">
+                                        <span t-esc="line['amount_currency'] if line['amount_currency'] > 0.00 else ''"/>
+                                        <span t-esc="line['currency_code'] if line['amount_currency'] > 0.00 else ''"/>
+                                    </td>
+                                </tr>
+                            </t>
+                        </tbody>
+                    </table>
+                    
+                </div>
+                <p class="text-center"> - End of Report - </p>
+                
+            </t>
+        </t>
+    </template>
+</odoo>

@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_elec_purchase_order_form" model="ir.ui.view">
+        <field name="name">Electron Purchase Order Form View</field>
+        <field name="model">purchase.order</field>
+        <field name="inherit_id" ref="purchase.purchase_order_form" />
+        <field name="arch" type="xml">
+            <xpath expr="//page[@name='purchase_delivery_invoice']" position="after">
+                <field name="elect_purchase_double_validation" invisible="1" />
+                <page string="Approvals" attrs="{'invisible': [('elect_purchase_double_validation','!=', 'two_step')]}">
+                    <group>
+                        <!-- <field name="current_user"/>
+                        <field name="gm_user_id"/>
+                        <field name="pm_user_id"/>
+                        <field name="accountant_user_id"/> -->
+                        <field name="is_gm" invisible="1" />
+                        <field name="is_pm" invisible="1" />
+                        <field name="is_accountant" invisible="1" />
+                        <field name="is_projectmanager" invisible="1" />
+
+                        <!-- <field name="is_elec_gm_approved" states="draft,sent"/>
+                        <field name="is_elec_pm_approved" states="draft,sent"/>
+                        <field name="is_elec_accountant_approved" states="draft,sent"/> -->
+                        <!-- <field name="is_elec_projectmanager_approved" states="draft,sent"  attrs = "{'readonly': [('is_projectmanager', '=', False)]}" /> -->
+                        <field name="is_elec_gm_approved" states="draft,sent"  attrs = "{'readonly': [('is_gm', '=', False)]}" />
+                        <field name="is_elec_pm_approved" states="draft,sent" attrs = "{'readonly': [('is_pm', '=', False)]}" />
+                        <field name="is_elec_accountant_approved" states="draft,sent" attrs = "{'readonly': [('is_accountant', '=', False)]}" />
+                        <field name="is_elec_projectmanager_approved_po" states="purchase"  attrs = "{'readonly': [('is_projectmanager', '=', False)]}" />
+                        <field name="is_elec_gm_approved_po" states="purchase"  attrs = "{'readonly': [('is_gm', '=', False)]}" />
+                        <field name="is_elec_pm_approved_po" states="purchase" attrs = "{'readonly': [('is_pm', '=', False)]}" />
+                        <field name="is_elec_accountant_approved_po" states="purchase" attrs = "{'readonly': [('is_accountant', '=', False)]}" />
+                        <!-- <field name="is_elec_gm_approved_po" states="purchase" />
+                        <field name="is_elec_pm_approved_po" states="purchase" />
+                        <field name="is_elec_accountant_approved_po" states="purchase"/> -->
+                    </group>
+                </page>
+            </xpath>
+
+            <!-- <xpath expr="//button[@name='action_create_invoice']" position="replace">
+                <button name="elect_action_create_invoice" string="Create Bill" type="object" context="{'create_bill':True}" attrs="{'invisible': ['|', '|', ('state', 'not in', ('purchase', 'done')), ('invoice_status', 'not in', ('no', 'invoiced')), ('order_line', '=', [])]}"/>
+                <button name="elect_action_create_invoice" string="Create Bill" type="object" class="oe_highlight" context="{'create_bill':True}" attrs="{'invisible': ['|', ('state', 'not in', ('purchase', 'done')), ('invoice_status', 'in', ('no', 'invoiced'))]}"/>
+            </xpath> -->
+            <xpath expr="//button[@name='button_unlock']" position="replace">
+                <button name="button_unlock" type="object" string="Unlock" states="done" groups="purchase_request.purchase_request_group_GM"/>   
+            </xpath>
+            <xpath expr="//field[@name='notes']" position="after">
+                <field name="delivery_terms" class="oe_inline" attrs="{'invisible': [('elect_purchase_double_validation','!=', 'two_step')]}" placeholder = "Delivery Terms ..." />
+                <field name="attachments" class="oe_inline" attrs="{'invisible': [('elect_purchase_double_validation','!=', 'two_step')]}" placeholder = "Attached Documents ..." />
+            </xpath>
+            <xpath expr="//field[@name='partner_id']" position="after">
+                <field name="attn" attrs="{'invisible': [('elect_purchase_double_validation','!=', 'two_step')]}" class="oe_inline" />
+            </xpath>
+            <xpath expr="//field[@name='amount_total']" position="after">
+                <field name="certified" attrs="{'invisible': [('elect_purchase_double_validation','!=', 'two_step')]}" class="oe_inline" />
+            </xpath>
+        </field>
+    </record>
+
+    <record id="product_template_inherit_module_elect_trade" model="ir.ui.view">
+        <field name="name">product.template.inherit.module.elect.trade</field>
+        <field name="model">product.template</field>
+        <field name="inherit_id" ref="product.product_template_form_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//div[@name='pricing']" position="after">
+                <label for="min_price" groups="base.group_user" attrs="{'invisible': [('product_variant_count', '&gt;', 1), ('is_product_variant', '=', False)]}"/>
+                <div name="min_price" groups="base.group_user" attrs="{'invisible': [('product_variant_count', '&gt;', 1), ('is_product_variant', '=', False)]}" class="o_row">
+                    <field name="min_price" widget="monetary" options="{'currency_field': 'cost_currency_id', 'field_digits': True}"/>
+                    <span groups="uom.group_uom" class="oe_read_only">per
+                        <field name="uom_name"/>
+                    </span>
+                </div>
+            </xpath>
+        </field>
+    </record>
+</odoo>

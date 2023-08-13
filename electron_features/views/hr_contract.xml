@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <record id="view_electron_hr_contract_form" model="ir.ui.view">
+        <field name="name">electron.hr.contract.form</field>
+        <field name="model">hr.contract</field>
+        <field name="inherit_id" ref="hr_contract.hr_contract_view_form" />
+        <field name="arch" type="xml">
+        
+            <xpath expr="//field[@name='struct_id']" position="after">
+                <field name="is_overtime" />
+            </xpath>
+
+            <xpath expr="//group[@name='salary_and_advantages']" position="inside">
+                <label for="working_hours"/>
+                <div class="o_row" name="working_hours">
+                    <field name="working_hours" nolabel="1"/>
+                    <span>/ month</span>
+                </div>
+                <label for="daily_hours"/>
+                <div class="o_row" name="daily_hours">
+                    <field name="daily_hours" nolabel="1"/>
+                    <span>/ Day</span>
+                </div>
+            </xpath>
+        </field>
+    </record>
+</odoo>

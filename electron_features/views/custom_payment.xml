@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="_custom_view_account_payment_form_inherit" model="ir.ui.view">
+        <field name="name">Custom view account payment form inherited</field>
+        <field name="model">account.payment</field>
+        <field name="inherit_id" ref="account.view_account_payment_form" />
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='move_id']" position="after">
+                <field name="sale_person" string="Sale Person" />
+            </xpath>
+        </field>
+    </record>
+    <record id="custom_view_acccount_supplier_payment_treee" model="ir.ui.view">
+        <field name="name">Custom view account Suppliers Payment tree</field>
+        <field name="model">account.payment</field>
+        <field name="inherit_id" ref="account.view_account_supplier_payment_tree" />
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='partner_id']" position="after">
+                <field name="sale_person" string="Sale Person" />
+            </xpath>
+        </field>
+    </record>
+     <record id="custom_view_account_payment_tree_inherit" model="ir.ui.view">
+        <field name="name">Custom view account payment tree inherited</field>
+        <field name="model">account.payment</field>
+        <field name="inherit_id" ref="account.view_account_payment_tree" />
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='partner_id']" position="after">
+                <field name="sale_person" string="Sale Person" />
+            </xpath>
+        </field>
+    </record>
+    <record id="view_account_payment_group_inhrit" model="ir.ui.view">
+        <field name="name">Custom view account payment form inherited</field>
+        <field name="model">account.payment</field>
+        <field name="inherit_id" ref="account.view_account_payment_search" />
+        <field name="arch" type="xml">
+            <xpath expr="//filter[@name='state']" position="after">
+                <filter name="sale_person" string="Sale Person" context="{'group_by': 'sale_person'}"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>

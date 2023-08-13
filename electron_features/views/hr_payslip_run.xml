@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <record id="view_payroll_payslip_batches_form" model="ir.ui.view">
+        <field name="name">view.payroll.payslip.batches.form</field>
+        <field name="model">hr.payslip.run</field>
+        <field name="inherit_id" ref="hr_payroll.hr_payslip_run_form" />
+        <field name="arch" type="xml">
+            <xpath expr="//header" position="inside">
+                <button string="Generate Payslips New" name="create_payslips_monthly" type="object" />
+            </xpath>
+        </field>
+    </record>
+    <record id="view_payslip_form_inherit" model="ir.ui.view">
+            <field name="name">Payslip Form Inherited</field>
+            <field name="model">hr.payslip</field>
+            <field name="inherit_id" ref="hr_payroll.view_hr_payslip_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//button[@name='action_payslip_done']" position="replace">
+                    <button string="Create Draft Entry" name="create_entry" type="object" attrs="{'invisible': [('state', 'not in', 'verify')]}" class="oe_highlight" context="{'payslip_generate_pdf': True}"/>
+                    <button string="Partial Payment" name="open_partial_payment_wizard" type="object" attrs="{'invisible': [('state', 'not in', 'verify')]}" class="oe_highlight" context="{'payslip_id':'default_payslip_id'}" />
+                </xpath>
+
+              <xpath expr="//group[@col='4']" position="after">
+                <group name="info_loan">
+                        <group name="group_1">
+                            <field name="loan_line_id" readonly="True"/>
+                            <field name="partial_amounts" readonly="True"/>
+                            <!-- <field name="salary_advance" readonly="True"/> -->
+                        </group>
+                </group>
+              </xpath>
+              <xpath expr="//group[@name='accounting']" position="after">
+                    <!-- <field name="journal_loan" /> -->
+                    <!-- <field name="entry_loan" readonly="True" /> -->
+                    <group string="Partial Payment Entries">
+                            <field name="entry_partial_payment" readonly="True" />           
+                    </group>
+              </xpath>
+
+            </field>
+    </record>  
+    <!-- <record id="view_payslip_structure_form_inherit" model="ir.ui.view">
+            <field name="name">Payslip Structure Form</field>
+            <field name="model">hr.payroll.structure</field>
+            <field name="inherit_id" ref="hr_payroll.view_hr_employee_grade_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='country_id']" position="after">
+                        <field name="journal_loan" />
+                        <field name="credit_account_loan" string="Credit Account Loan" />
+                </xpath>
+            </field>
+    </record>   -->
+</odoo> 

@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_elec_account_form" model="ir.ui.view">
+        <field name="name">Electron Account Form View</field>
+        <field name="model">account.account</field>
+        <field name="inherit_id" ref="account.view_account_form" />
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='group_id']" position="after">
+                <field name="is_elec_analytic_accounts" />
+            </xpath>
+        </field>
+    </record>
+    <record id="view_elec_account_move_form" model="ir.ui.view">
+        <field name="name">View Elec Account Move Form</field>
+        <field name="model">account.move</field>
+        <field name="inherit_id" ref="account.view_move_form" />
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='ref']" position="after">
+                <field name="inv_origin_id" invisible="1" />
+                <field name="certified_amount_total" invisible="1" />
+                <field name="dn_number"/>
+                <field name="po_num"/>
+                <field name="lpo_no"/>
+            </xpath>
+            <xpath expr="//field[@name='line_ids']/tree//field[@name='name']" position="after">
+                <field name="due_date_cheque" />
+            </xpath>
+        </field>
+    </record>
+    <record id="view_elec_account_line_list" model="ir.ui.view">
+        <field name="name">Electron Account Line List</field>
+        <field name="model">account.move.line</field>
+        <field name="inherit_id" ref="account.view_move_line_tree"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='name']" position="after">
+                <field name="due_date_cheque" />
+            </xpath>
+        </field>
+    </record>
+</odoo>

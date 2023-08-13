@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="res_config_settings_view_form_sales" model="ir.ui.view">
+        <field name="name">res.config.settings.view.form.inherit.sales</field>
+        <field name="model">res.config.settings</field>
+        <field name="priority" eval="25"/>
+        <field name="inherit_id" ref="base.res_config_settings_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//div[@id='confirmation_email_setting']" position="after">
+                <div class="col-12 col-lg-6 o_setting_box" id="sale_order_approval">
+                    <div class="o_setting_left_pane">
+                        <field name="sale_order_approval"/>
+                    </div>
+                    <div class="o_setting_right_pane">
+                        <label for="sale_order_approval"/>
+                        <span class="fa fa-lg fa-building-o" title="Values set here are company-specific." aria-label="Values set here are company-specific." groups="base.group_multi_company" role="img"/>
+                        <div class="text-muted">
+                                    Request managers to approve orders above a minimum amount
+                        </div>
+                        <div class="content-group" attrs="{'invisible': [('sale_order_approval', '=', False)]}">
+                            <div class="row mt16">
+                                <label for="sale_double_validation_amount" class="col-lg-4 o_light_label"/>
+                                <field name="sale_double_validation_amount"/>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </xpath>
+        </field>
+    </record>
+    <record id="elect_view_form_sales" model="ir.ui.view">
+        <field name="name">elect.view.form.inherit.sales</field>
+        <field name="model">sale.order</field>
+        <field name="priority" eval="25"/>
+        <field name="inherit_id" ref="sale.view_order_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//button[@name='action_confirm']" position="after">
+                <button name="button_approve" type="object" states='to approve' string="Approve Order" class="oe_highlight" groups="purchase.group_purchase_manager"/>
+                <button name="button_refuse" type="object" states='to approve' string="Refuse" class="oe_highlight" groups="purchase.group_purchase_manager"/>
+            </xpath>
+            <xpath expr="//button[@name='action_confirm']" position="replace">
+               <button name="action_confirm" string="Confirm" class="oe_highlight" type="object" attrs="{'invisible': [('state', 'not in', ['draft','approved'])]}"/>
+            </xpath>
+            <xpath expr="//button[@name='action_cancel']" position="replace">
+               <button name="action_cancel" type="object" string="Cancel" attrs="{'invisible': ['|', ('state', 'not in', ['draft','approved' ,'sent','sale']), ('id', '=', False)]}"/>
+            </xpath>
+            <xpath expr="//button[@name='action_quotation_send']" position="replace">
+               <button name="action_quotation_send" string="Send by Email" type="object" states="draft,approved" class="btn-primary"/>
+            </xpath>
+            <xpath expr="//field[@name='partner_shipping_id']" position="after">
+                <field name="attn"/> 
+                <field name="discount"  invisible = "1"/> 
+                <field name="total_no_disc" invisible = "1"/> 
+            </xpath>
+
+
+        </field>
+    </record>
+</odoo>

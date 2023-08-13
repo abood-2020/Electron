@@ -1,0 +1,297 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!--Petty Cash Tree view-->
+    <record id="hr_pettycash_tree_view" model="ir.ui.view">
+        <field name="name">hr.pettycash.tree</field>
+        <field name="model">hr.pettycash</field>
+        <field name="arch" type="xml">
+            <tree string="Petty Cash Requests">
+                <field name="name" />
+                <field name="employee_id" />
+                <field name="date" />
+                <field name="petty_amount" />
+                <field name="state" />
+            </tree>
+        </field>
+    </record>
+
+    <record id="hr_pettycash_close_tree_view" model="ir.ui.view">
+        <field name="name">hr.pettycash.close.tree</field>
+        <field name="model">hr.pettycash.closing.model</field>
+        <field name="arch" type="xml">
+            <tree string="Petty Cash Closes">
+                <field name="petty_cash_id" />
+                <field name="name" />
+                <field name="employee_id" />
+                <field name="date" />
+                <field name="petty_closing_amount" />
+            </tree>
+        </field>
+    </record>
+        <record id="hr_pettycash_close_tree_view_" model="ir.ui.view">
+        <field name="name">hr.pettycash.close.tree.1</field>
+        <field name="model">hr.pettycash.closing</field>
+        <field name="arch" type="xml">
+            <tree string="Petty Cash Closes">
+                <field name="employee_id" />
+                <field name="date" />
+            </tree>
+        </field>
+    </record>
+
+    <!--Petty Cash Close Wizard view-->
+    <!-- <record model="ir.ui.view" id="view_petty_close_form">
+        <field name="name">view.petty.close.form</field>
+        <field name="model">hr.pettycash.closing</field>
+        <field name="type">form</field>
+        <field name="arch" type="xml">
+            <form string="My Form">
+                <sheet>
+                    <group>
+                        <field name="name" />
+                    </group>
+                    <group col="6" colspan="6">
+                        <field name="date" />
+                        <field name="employee_id" />
+                        <field name="department_id" />
+                    </group>
+                    <group col="4" colspan="4">
+                        <field name="reason" />
+                        <field name="petty_closing_amount" />
+                    </group>
+                </sheet>
+                <footer>
+                    <button name="action_create_petty_close" type="object" string="Create" class="oe_highlight" />
+                    <button special="cancel" string="Cancel" />
+                </footer>
+
+            </form>
+        </field>
+    </record> -->
+
+
+    <!-- <record model="ir.actions.act_window" id="action_create_petty_close_wizard">
+        <field name="name">Create Petty Close</field>
+        <field name="res_model">hr.pettycash.closing</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record> -->
+
+    <record id="hr_pettycash_close_model_form" model="ir.ui.view">
+        <field name="name">petty.cash.closing.model</field>
+        <field name="model">hr.pettycash.closing.model</field>
+        <field name="arch" type="xml">
+            <form>
+            <header>
+                <field name="closed_entry_count_posted"  invisible = "1"/>
+                <button name="action_submit" type="object" string="Submit" states="draft" class="oe_highlight" />
+                <button name="action_approve" type="object" string="Approve" states="waiting_approval_1" class="oe_highlight" groups="hr_payroll.group_hr_payroll_manager" />
+                <button name="action_approve_gm" type="object" string="ED Approve" states="waiting_approval_2" class="oe_highlight" groups="purchase_request.purchase_request_group_GM" />
+                <button name="action_create_journal_record" type="object" attrs="{'invisible': ['|',('closed_entry_count_posted', '!=', 0),('state','!=','approve')]}" string="Create Journal Entry" class="oe_highlight" groups="account.group_account_user" />
+                <button name="action_refuse" type="object" string="Refuse" states="waiting_approval_1,waiting_approval_2" groups="hr_payroll.group_hr_payroll_manager" class="oe_highlight" />
+                <button name="action_set_draft" type="object" string="Set to draft" states="cancel" />
+                <button name="action_cancel" type="object" string="Cancel" states="waiting_approval_2,waiting_approval_1,refuse"/>
+                <field name="state" widget="statusbar" statusbar_visible="draft,waiting_approval_1,waiting_approval_2,approve" />
+            </header>
+                <sheet>
+                    <group>
+                        <field name="name" />
+                    </group>
+                    <group col="6" colspan="6">
+                        <field name="date" />
+                        <field name="employee_id" />
+                        <field name="department_id" />
+                    </group>
+                    <group col="4" colspan="4">
+                        <field name="petty_closing_amount" />
+                        <field name="project_id" />
+                        <field name="journal" groups = "account.group_account_user" />
+                        <field name="account_from_id" groups = "account.group_account_user" />
+                        <field name="currency_id" groups = "account.group_account_user" />
+                        <field name="reason" />
+                        <field name="analytic_group_id" options="{'no_create': True}" readonly = "1" force_save = "1" groups = "account.group_account_user" />
+                    </group>
+                    <notebook>
+                        <page name="Petty Cash Close Lines" string="Lines">
+                            <field name="petty_close_line_id" attrs="{'readonly':[('state','in',['approve','closed','refuse'])]}">
+                                <tree string="Petty Cash Close Lines"  editable="bottom">
+                                    <field name="sequence_ref" />
+                                    <field name="desc" />
+                                    <field name="supplier" />
+                                    <field name="invoice_number" />
+                                    <field name="analytic_account_id" options="{'no_create': True}" groups = "account.group_account_user" />
+                                    <field name="account_to_id" options="{'no_create': True}" groups = "account.group_account_user" />                                                                       
+                                    <field name="total" />
+                                    
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids" widget="mail_followers" />
+                    <field name="activity_ids" widget="mail_activity" />
+                    <field name="message_ids" widget="mail_thread" />
+                </div>
+            </form>
+        </field>
+    </record>
+
+
+    <!--Petty Cash Form view-->
+    <record id="hr_pettycash_form_view" model="ir.ui.view">
+        <field name="name">hr.pettycash.form</field>
+        <field name="model">hr.pettycash</field>
+        <field name="arch" type="xml">
+            <form string="Petty Cash Request">
+                <header>
+                    <field name="is_amount_due_zero" invisible="1" />
+                    <field name="entry_count_posted" invisible="1"/>
+                    <button name="action_submit" type="object" string="Submit" states="draft" class="oe_highlight" />
+                    <button name="action_approve" type="object" string="Approve" states="waiting_approval_1" class="oe_highlight" groups="hr.group_hr_manager,account.group_account_user" />
+                    <button name="action_create_journal_record" type="object" attrs="{'invisible': ['|',('entry_count_posted', '!=', 0),('state','!=','approve')]}" string="Create Journal Entry" class="oe_highlight" groups="hr.group_hr_manager" />
+                    <button name="action_hr_pettycash_close_form" string="Create Petty Close" attrs="{'invisible': ['|',('petty_close_amount_due', '==', 0),('state','==','closed')]}" class="oe_highlight" type="object"/>
+                    <!-- <button name="action_hr_pettycash_close_form" string="Create Petty Close" attrs="{'invisible': ['|','|',('entry_count_posted', '==', 0),('state','!=','approve'),('is_amount_due_zero','=',True)]}" class="oe_highlight" type="object"></button> -->
+                    <!-- <button name="action_approve_gm" type="object" string="ED Approve" states="waiting_approval_2" class="oe_highlight" groups="purchase_request.purchase_request_group_GM" /> -->
+                    <button name="action_approve_gm" type="object" string="ED Approve" states="waiting_approval_2" class="oe_highlight"  />
+                    <button name="action_refuse" type="object" string="Refuse" states="draft,waiting_approval_1,waiting_approval_2" class="oe_highlight" groups="hr.group_hr_manager,account.group_account_user" />
+                    <button name="action_set_draft" type="object" string="Set to Draft" states="cancel" groups="hr.group_hr_manager,hr.group_hr_user,account.group_account_user" />
+                    <button name="action_cancel" type="object" string="Cancel" states="waiting_approval_1,waiting_approval_2,approve" groups="hr.group_hr_manager,hr.group_hr_user,account.group_account_user" />
+                    <field name="state" widget="statusbar" statusbar_visible="draft,waiting_approval_1,waiting_approval_2,approve" />
+                </header>
+
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="action_view_entry" type="object" class="oe_stat_button" icon="fa-bars" attrs="{'invisible': [('entry_count', '=', 0)]}">
+                            <field name="entry_count" />
+                            <div class="o_field_widget o_stat_info">
+                                <span class="o_stat_text">Journal Entry</span>
+                            </div>
+                        </button>
+                        <button  name="action_view_petty_cash_closing_module" attrs="{'invisible': [('petty_close_count', '==', 0)]}" type="object" class="oe_stat_button" icon="fa-calendar" groups="hr.group_hr_manager,hr.group_hr_user">
+                             <field name="petty_close_count" widget="statinfo" string="Petty Closings" />
+                        </button>
+                    </div>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="name" readonly="1" />
+                        </h1>
+                    </div>
+                    <group>
+                        <group col="2">
+                            <field name="employee_id" attrs="{'readonly':[('state','=','approve')]}" />
+                            <field name="department_id" />
+                            <field name="company_id" options="{'no_create': True}" groups="base.group_multi_company" />
+                            <field name="currency_id" options="{'no_create': True}" groups="base.group_multi_company" />
+                        </group>
+                        <group col="2">
+                            <field name="date" />
+                            <field name="petty_amount" attrs="{'readonly':[('state','=','approve')]}" />
+                            <field name="petty_close_amount" />
+                            <field name="petty_close_amount_due" />
+                            <field name="journal" states="approve" />
+                            <field name="account_from_id" states="approve" />
+                            <field name="account_to_id" states="approve" />
+                        </group>
+                    </group>
+                    <group>
+                        <field name="reason" />
+                    </group>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids" widget="mail_followers" />
+                    <field name="activity_ids" widget="mail_activity" />
+                    <field name="message_ids" widget="mail_thread" />
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_hr_pettycash_request" model="ir.actions.act_window">
+        <field name="name">Petty Cash</field>
+        <field name="res_model">hr.pettycash</field>
+        <field name="view_mode">tree,form</field>
+        <!-- <field name="context">{'search_default_myrequest': 1}</field> -->
+        <!-- <field name="search_view_id" ref="view_loan_request_search_form"/> -->
+        <field name="help" type="html">
+            <p class="oe_view_nocontent_create">
+                Click to create a new Petty Cash request.
+            </p>
+            <p>
+                Use this menu to create Petty Cash requests.
+            </p>
+        </field>
+    </record>
+    <record id="action_hr_pettycash_close" model="ir.actions.act_window">
+        <field name="name">Petty Cash Closings</field>
+        <field name="res_model">hr.pettycash.closing.model</field>
+        <field name="view_mode">tree,form</field>
+        <!-- <field name="context">{'search_default_myrequest': 1}</field> -->
+        <!-- <field name="search_view_id" ref="view_loan_request_search_form"/> -->
+        <field name="help" type="html">
+            <p class="oe_view_nocontent_create">
+                Click to create a pettycash closing
+            </p>
+        </field>
+    </record>
+
+    <!--Petty Cash search view-->
+    <record id="view_petty_cash_request_search_form" model="ir.ui.view">
+        <field name="name">hr.petty.cash.search.form</field>
+        <field name="model">hr.pettycash</field>
+        <field name="arch" type="xml">
+            <search string="Petty Cash">
+                <field name="employee_id" string="Employee" />
+                <filter string="My Requests" name="myrequest" domain="[('employee_id.user_id.id', '=', uid)]" />
+                <filter string="Approved" name="state_approve" domain="[('state', '=', 'approve')]" />
+                <filter string="Paid" name="entry_done" domain="[('state', '=', 'paid')]" />
+                <filter string="Employee" name="employee_id" context="{'group_by':'employee_id'}" />
+                <filter string="Status" name="status" context="{'group_by':'state'}" />
+            </search>
+        </field>
+    </record>
+
+    <menuitem name="Petty Cash" id="menu_base_hr_petty_cash_request" parent="electron_hr.menu_hr_loans_and_advances" sequence="3" action="action_hr_pettycash_request" />
+    <menuitem name="Petty Cash Close" id="menu_base_hr_petty_cash_close" parent="electron_hr.menu_hr_loans_and_advances" sequence="4" action="action_hr_pettycash_close" />
+
+
+    <!-- Shortcuts -->
+    <record id="act_hr_employee_petty_cash_request" model="ir.actions.act_window">
+        <field name="name">Petty Cash</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">hr.pettycash</field>
+        <field name="binding_model_id" ref="hr.model_hr_employee" />
+        <field name="view_mode">tree,form</field>
+        <field name="context">{'search_default_employee_id': [active_id], 'default_employee_id': active_id,'search_default_entry_done': 1}</field>
+        <field name="view_id" eval="hr_pettycash_tree_view" />
+    </record>
+
+    <record id="act_hr_employee_petty_cash_close_request" model="ir.actions.act_window">
+        <field name="name">Petty Cash Close</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">hr.pettycash.closing.model</field>
+        <field name="binding_model_id" ref="electron_hr.model_hr_pettycash" />
+        <field name="view_mode">tree</field>
+        <field name="context">{'search_default_petty_cash_id': 1}</field>
+        <field name="view_id" eval="hr_pettycash_close_tree_view" />
+    </record>
+
+
+    <!-- HR employee inherit Petty Cash -->
+    <record id="view_employee_form_petty_cash_inherit" model="ir.ui.view">
+        <field name="name">hr.employee.petty.cash.form.inherit</field>
+        <field name="model">hr.employee</field>
+        <field name="inherit_id" ref="hr.view_employee_form" />
+        <field name="arch" type="xml">
+            <xpath expr="//div[@name='button_box']" position="inside">
+                <button name="%(act_hr_employee_petty_cash_request)d" type="action" class="oe_stat_button" icon="fa-calendar" groups="hr.group_hr_manager,hr.group_hr_user">
+                    <field name="petty_count" widget="statinfo" string="Petty Cash" />
+                </button>
+            </xpath>
+        </field>
+    </record>
+
+
+
+</odoo>

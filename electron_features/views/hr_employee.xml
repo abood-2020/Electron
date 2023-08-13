@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <record id="view_electron_hr_empolyee_form" model="ir.ui.view">
+        <field name="name">electron.hr.empolyee.form</field>
+        <field name="model">hr.employee</field>
+        <field name="inherit_id" ref="hr.view_employee_form" />
+        <field name="arch" type="xml">
+            <xpath expr="//group[@name='active_group']" position="after">
+                <group string="Accounting" name="account_group">
+                    <field name="employee_account"/>
+                    <field name="struct_id"/>
+                </group>
+            </xpath>
+            <xpath expr="//page[@name='hr_settings']" position="after">
+                <page name="accounting" string="Account Informations">
+                    <group>
+                        <group name="loans_details" string="Loans Details">
+                            <field name="amount_loan" />
+                            <field name="amount_paid_loan" />
+                        </group>
+                        <group name="payslip_details" string="Payslips Details">
+                            <field name="payslip_count" string="Payslip Count"/>
+                            <field name="payslip_amount" />
+                            <field name="payslip_paid" style="color:green;font-weight:bold">
+                                <field name="payslip_paid"/>
+                            </field>
+                        </group>
+
+                        <group name="end_of_services" string="End Of Services">
+                            <field name="worked_day" />
+                            <field name="end_service_amount" />
+                            <field name="end_service_paid" />
+                        </group>
+
+                         <group name="leave_allowance" string="Leave Allowance">
+                            <field name="worked_day" />
+                            <field name="end_leave_allowance" />
+                            <field name="end_leave_paid" />
+                        </group>
+                    </group>
+                   
+                </page>
+            </xpath>
+        </field>
+    </record>
+</odoo>
