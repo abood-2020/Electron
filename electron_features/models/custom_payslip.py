@@ -310,7 +310,7 @@ class ElectronPayslip(models.Model):
                     'name':'Basic Salary Based on Attendance',
                     'number_of_days':working_days1,
                     'number_of_hours':0.0,
-                    'amount':int(basic_salary),
+                    'amount':int(total_salary),
                     }
                 )
             ]

@@ -207,4 +207,13 @@ class ElecSalesConfig(models.TransientModel):
 class TransferElec(models.Model):
     _inherit = 'stock.picking'
 
-    po_num  = fields.Char("PO Num.",readonly=False)
+    po_num  = fields.Char("PO Num.",readonly=False,compute="_set_value_po")
+    
+    @api.depends('origin')
+    def _set_value_po(self):
+        for rec in self:
+            sale_order = self.env['sale.order'].search([('name' , '=' , rec.origin)])
+            if len(sale_order) != 0:
+                rec.po_num = sale_order.client_order_ref
+            else:
+                rec.po_num = ''
