@@ -14,6 +14,8 @@
             <tree string="Payments Commissions">
                 <field name="user"   />
                 <field name="month"   />
+                 <field name="check" string="Check Amount"/>
+                <field name="bank_transfer" string="Bank Transfer Amount"/>
                 <field name="bank_journal" />
                 <field name="cash_journal" />
                 <field name="sales_amount" string="Receivable Amount"/>

@@ -291,7 +291,30 @@ class ElectronPayslip(models.Model):
                         }
                     )
                 ] 
-          
+        
+        
+    def calucate_commission_payment(self):
+        current_month = self.date_from.strftime('%B %Y')
+        employee_commision = self.env['commission.payment'].search([
+                                        ('user' , '=' , self.employee_id.user_id.id),
+                                        ('month' , '=' , current_month)
+                                    ])
+        if employee_commision:
+            type_entry_commision = self.env['hr.work.entry.type'].search([('code', '=', 'COM-09')])
+            self.worked_days_line_ids =  [
+                    (
+                        0,
+                        0,
+                        {
+                        'work_entry_type_id' : int(type_entry_commision.id), 
+                        'name':f'Commision Payment ',
+                        'number_of_days': 0 ,
+                        'number_of_hours':0.0,
+                        'amount': employee_commision.commission,
+                        }
+                    )
+                ] 
+        
     def calucate_basic_salary(self, working_days, total_salary, count_month_days):
         type_entry_attendance = self.env['hr.work.entry.type'].search([('code', '=', 'BASA-01')])
         
@@ -552,6 +575,7 @@ class ElectronPayslip(models.Model):
             self.calucate_salary_advance(employee_id , month_payslip)            
 
             self.deduction_unauthorized_leave(employee_id, total_salary, working_days, count_month_days)  
+            self.calucate_commission_payment()
       
     @api.model
     def create(self, values):

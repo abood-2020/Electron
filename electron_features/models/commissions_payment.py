@@ -16,6 +16,8 @@ class CommissionPayment(models.Model):
     cash_journal = fields.Float(String="Cash Journal Amount")
     sales_amount = fields.Float(String="Receivable Amount")
     commission = fields.Float(String="Commission", compute="_compute_commission")
+    bank_transfer = fields.Float(string="Bank Transfer")
+    check = fields.Float(string="Check")
     
     @api.depends('sales_amount')
     def _compute_commission(self):
@@ -44,9 +46,11 @@ class CommissionPayment(models.Model):
             payments = self.env['account.payment'].search([('sale_person', '=', int(user.id)) ,('payment_type', '=', 'inbound')],order="date ASC")
             for rec in payments:
                 current_month = rec.date.strftime('%B %Y')
-                existing_record = self.search([('month', '=', current_month) , ('user', '=', user.id)])
-            
-                if not existing_record:
+                check_month = rec.check.strftime('%B %Y') if rec.check else False
+                bank_transfer_month = rec.bank_transfer.strftime('%B %Y') if rec.bank_transfer else False
+                payment_date_record = self.search([('month', '=', current_month) , ('user', '=', user.id)])
+
+                if not payment_date_record:
                     record = self.create({
                         'user': user.id,
                         'month': current_month,
@@ -55,13 +59,40 @@ class CommissionPayment(models.Model):
                         'cash_journal': 0,
                         'sales_amount': 0,
                     })
-                else:
-                    record = existing_record
-                    
+                check_date_record =   self.search([('month', '=', check_month) , ('user', '=', user.id)])
+
+                if not check_date_record and rec.check:
+                    check_record = self.create({
+                        'user': user.id,
+                        'month': check_month,
+                        'month_number':int(rec.check.strftime('%m')) if rec.check else False, 
+                        'bank_journal': 0,
+                        'cash_journal': 0,
+                        'sales_amount': 0,
+                    })                                        
+
+            for rec in payments:
+                current_month = rec.date.strftime('%B %Y')
+                check_month = rec.check.strftime('%B %Y') if rec.check else False
+                
+                payment_date_record = self.search([('month', '=', current_month) , ('user', '=', user.id)])
+                check_date_record =   self.search([('month', '=', check_month) , ('user', '=', user.id)])
+                        
                 if rec.journal_id.code == 'CSH1':
-                    record.cash_journal += rec.amount
-                elif rec.journal_id.code == 'BNK1':
-                    record.bank_journal += rec.amount
+                    payment_date_record.cash_journal += rec.amount
+                                     
+                if rec.journal_id.code == 'BNK1':
+                    if check_date_record.month == check_month:
+                        check_date_record.check += rec.amount
+                        check_date_record.bank_journal += rec.amount
                     
-                record.sales_amount += rec.amount
+                    else:
+                        payment_date_record.bank_transfer += rec.amount
+                        payment_date_record.bank_journal += rec.amount
+                    
+                    
+                payment_date_record.sales_amount = payment_date_record.cash_journal + payment_date_record.bank_journal
+            
+                check_date_record.sales_amount = check_date_record.cash_journal + check_date_record.bank_journal                
+                
            

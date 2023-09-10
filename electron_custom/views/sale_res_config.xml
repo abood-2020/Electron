@@ -53,7 +53,10 @@
                 <field name="discount"  invisible = "1"/> 
                 <field name="total_no_disc" invisible = "1"/> 
             </xpath>
-
+            <xpath expr="//field[@name='product_template_id']" position="after">
+                <field name="product_qty_available" string="Qty on Hand" /> 
+                <field name="comments" string="Comments" /> 
+            </xpath>
 
         </field>
     </record>

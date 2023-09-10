@@ -153,6 +153,13 @@ class SaleOrderLineElec(models.Model):
         string="display_title", copy=False, compute="check_prev_pagebreak")
     line_numb = fields.Integer(
         string="Line Numb", copy=False, compute="check_prev_pagebreak")
+    
+    product_qty_available = fields.Float(
+        string="Qty on Hand", compute="_compute_qty_available"
+    )
+    comments = fields.Char(
+        string="Comments"
+    )
 
     def check_prev_pagebreak(self):
         counter = 0
@@ -166,7 +173,12 @@ class SaleOrderLineElec(models.Model):
                 lines.update({'display_title': display_title})
             else:
                 lines.update({'display_title': display_title})
-
+    
+    
+    def _compute_qty_available(self):
+        for rec in self:
+            rec.product_qty_available = rec.product_id.qty_available
+    
     @api.onchange('product_id')
     def onchange_product_id_min_price(self):
         self.min_price = self.product_id.min_price
